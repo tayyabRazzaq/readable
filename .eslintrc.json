@@ -1,0 +1,110 @@
+{
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es6": true,
+		"node": true,
+		"jquery": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"airbnb",
+		"prettier",
+		"prettier/react",
+		"plugin:flowtype/recommended"
+	],
+	"settings": {
+		"react": {
+			"pragma": "React",
+			"version": "^16.6.3"
+		}
+	},
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true,
+			"experimentalObjectRestSpread": true,
+			"modules": true
+		},
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"plugins": [
+		"react",
+		"flowtype"
+	],
+	"rules": {
+		"strict": [
+			2,
+			"safe"
+		],
+		"no-console": 0,
+		"react/prefer-es6-class": 1,
+		"react/jsx-uses-react": "error",
+		"react/jsx-uses-vars": "error",
+		"import/prefer-default-export": 0,
+//		"react/no-string-refs": 0,
+//		"react/prop-types": 0,
+//		"react/no-direct-mutation-state": 0,
+//		"class-methods-use-this": 0,
+//		"react/no-array-index-key": 0,
+//		"jsx-a11y/anchor-is-valid": 0,
+//		"jsx-a11y/label-has-associated-control": 0,
+//		"jsx-a11y/label-has-for": 0,
+//		"react/forbid-prop-types": 0,
+//		"linebreak-style": 0,
+//		"react/destructuring-assignment": 0,
+//		"jsx-a11y/anchor-has-content": 0,
+		"max-len": [
+			"error",
+			{
+				"code": 120
+			}
+		],
+		"react/jsx-filename-extension": [
+			1,
+			{
+				"extensions": [
+					".js",
+					".jsx"
+				]
+			}
+		],
+		"dot-notation": [
+			2,
+			{
+				"allowPattern": "^[a-z]+(_[a-z]+)+$"
+			}
+		],
+		"no-unused-vars": [
+			"error",
+			{
+				"vars": "all",
+				"args": "after-used",
+				"ignoreRestSiblings": false
+			}
+		],
+		"indent": [
+			"error",
+			4,
+			{
+				"SwitchCase": 1
+			}
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"semi": [
+			"error",
+			"always"
+		],
+		"camelcase": [
+			"error",
+			{
+				"properties": "never"
+			}
+		]
+	}
+}

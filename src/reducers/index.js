@@ -4,9 +4,9 @@ import commentsReducer from './commentsReducer';
 import categoriesReducer from './categoriesReducer';
 
 const rootReducer = combineReducers({
-	postsReducer,
-	commentsReducer,
-	categoriesReducer
+    postsReducer,
+    commentsReducer,
+    categoriesReducer
 });
 
-export default rootReducer
+export default rootReducer;

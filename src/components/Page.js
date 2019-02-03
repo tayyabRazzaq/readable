@@ -4,15 +4,15 @@ import {getCategories} from '../utils/_DATA';
 
 export default class Page extends Component {
     componentDidMount() {
-        getCategories().then(response => {
-            debugger;
+        getCategories().then(() => {
+            debugger; // eslint-disable-line
         });
     }
-	
+    
     render() {
         return (
             <div>
-				Hello World
+                Hello World
             </div>
         );
     }
