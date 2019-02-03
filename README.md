@@ -1,3 +1,7 @@
+# readable-frontend
+Frontend React App for readable project of Udacity
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
