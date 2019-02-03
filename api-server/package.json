@@ -1,21 +1,32 @@
 {
-  "name": "reddit-clone-server",
-  "version": "0.0.1",
-  "description": "A server for the Udacity Reddit Clone project for ReactND",
-  "main": "index.js",
-  "keywords": [
-    "udacity",
-    "redux",
-    "readable",
-    "react"
-  ],
-  "author": "David Harris",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.17.1",
-    "cors": "^2.8.3",
-    "dotenv": "^4.0.0",
-    "express": "^4.15.2",
-    "clone": "^2.1.1"
-  }
- }
+	"name": "reddit-clone-server",
+	"version": "0.0.1",
+	"description": "A server for the Udacity Reddit Clone project for ReactND",
+	"main": "index.js",
+	"keywords": [
+		"udacity",
+		"redux",
+		"readable",
+		"react"
+	],
+	"scripts": {
+		"start": "babel-node --presets es2015 server.js",
+		"lint": "eslint .",
+		"lintfix": "eslint . --fix"
+	},
+	"author": "David Harris",
+	"license": "ISC",
+	"dependencies": {
+		"babel": "^6.23.0",
+		"body-parser": "^1.17.1",
+		"clone": "^2.1.1",
+		"cors": "^2.8.3",
+		"dotenv": "^4.0.0",
+		"express": "^4.15.2"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-core": "^6.26.3",
+		"babel-preset-es2015": "^6.24.1"
+	}
+}
