@@ -1,4 +1,4 @@
-import _Page from './Page';
+import _Page from './Home/Page';
 
 export {
     _Page as Page
