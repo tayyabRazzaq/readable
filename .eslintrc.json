@@ -44,6 +44,7 @@
 		"react/jsx-uses-react": "error",
 		"react/jsx-uses-vars": "error",
 		"import/prefer-default-export": 0,
+		"arrow-parens": ["error", "as-needed"],
 //		"react/no-string-refs": 0,
 //		"react/prop-types": 0,
 //		"react/no-direct-mutation-state": 0,
