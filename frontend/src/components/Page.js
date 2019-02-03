@@ -4,7 +4,8 @@ import {getCategories} from '../utils/_DATA';
 
 export default class Page extends Component {
     componentDidMount() {
-        getCategories().then(() => {
+        // eslint-disable-next-line
+        getCategories().then(response => {
             debugger; // eslint-disable-line
         });
     }

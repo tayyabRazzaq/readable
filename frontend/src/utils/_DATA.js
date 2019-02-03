@@ -18,7 +18,7 @@ export const deletePost = id => API.delete(`posts/${id}`);
 
 export const getPostComments = id => API.get(`posts/${id}/comments`);
 
-export const saveComments = postData => API.post('comments', postData);
+export const saveComment = postData => API.post('comments', postData);
 
 export const getComment = id => API.get(`comments/${id}`);
 
