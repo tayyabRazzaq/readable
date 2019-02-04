@@ -8,7 +8,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+@media (min-width: 1280px) {
+  #main-content {
+    overflow: hidden;
+  }
+}
+
+#main-content {
+  overflow: auto;
+  z-index: 1;
+  height: 100vh;
 }
