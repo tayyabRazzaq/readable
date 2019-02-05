@@ -17,5 +17,4 @@ body {
 #main-content {
   overflow: auto;
   z-index: 1;
-  height: 100vh;
 }
