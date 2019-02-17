@@ -12,8 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
-import getCategories from '../../actions/categoriesActions';
-import {getAllPosts, getCategoryPosts} from '../../actions/postsActions';
+import {postsActions, getCategories} from '../../actions';
 import EnhancedTable from '../utils/SortableTable';
 
 const rows = [
@@ -43,7 +42,7 @@ class ButtonAppBar extends Component {
     
     handleNavClick = key => {
         if (key === '') {
-            return this.props.getAllPosts();
+            return this.props.getAllPosts().then(() => this.props.history.push('/'));
         }
         return this.props.getCategoryPosts(key).then(() => this.routeToCategory(key));
     };
@@ -141,8 +140,8 @@ const mapStateToProps = ({postsReducer, categoriesReducer}) => ({postsReducer, c
 
 const mapDispatchToProps = dispatch => ({
     getCategories: () => dispatch(getCategories()),
-    getAllPosts: () => dispatch(getAllPosts()),
-    getCategoryPosts: category => dispatch(getCategoryPosts(category)),
+    getAllPosts: () => dispatch(postsActions.getAllPosts()),
+    getCategoryPosts: category => dispatch(postsActions.getCategoryPosts(category)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(ButtonAppBar));
