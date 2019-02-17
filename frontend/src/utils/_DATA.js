@@ -1,6 +1,10 @@
 import API from '../common';
 
+/***************************** Categories ************************************/
+
 export const getCategories = () => API.get('categories');
+
+/***************************** Posts ************************************/
 
 export const getCategoryPosts = category => API.get(`${category}/posts`);
 
@@ -15,6 +19,8 @@ export const votePost = (id, postData) => API.post(`posts/${id}`, postData);
 export const updatePost = (id, postData) => API.put(`posts/${id}`, postData);
 
 export const deletePost = id => API.delete(`posts/${id}`);
+
+/***************************** Comments ************************************/
 
 export const getPostComments = id => API.get(`posts/${id}/comments`);
 

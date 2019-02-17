@@ -46,6 +46,8 @@
 		"import/prefer-default-export": 0,
 		"arrow-parens": ["error", "as-needed"],
 		"react/forbid-prop-types": 0,
+		"react/destructuring-assignment": 0,
+		"spaced-comment": 0,
 		"max-len": [
 			"error",
 			{
@@ -105,7 +107,6 @@
 //		"jsx-a11y/label-has-associated-control": 0,
 //		"jsx-a11y/label-has-for": 0,
 //		"linebreak-style": 0,
-//		"react/destructuring-assignment": 0,
 //		"jsx-a11y/anchor-has-content": 0,
 	}
 }

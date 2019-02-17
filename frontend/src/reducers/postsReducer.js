@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case GET_CATEGORY_POSTS_SUCCESSFULLY:
             return state.merge({
-                posts: action.response.data.posts,
+                posts: action.response.data,
                 error: null,
                 statusSuccess: true,
             });
@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
             });
         case GET_ALL_POSTS_SUCCESSFULLY:
             return state.merge({
-                posts: action.response.data.posts,
+                posts: action.response.data,
                 error: null,
                 statusSuccess: true,
             });

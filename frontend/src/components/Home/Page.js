@@ -10,8 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
-import {getCategories, getAllPosts, getCategoryPosts} from '../../utils/_DATA';
+import getCategories from '../../actions/categoriesActions';
+import {getAllPosts, getCategoryPosts} from '../../actions/postsActions';
 import EnhancedTable from '../utils/SortableTable';
 
 const rows = [
@@ -28,33 +30,22 @@ class ButtonAppBar extends Component {
         super(props);
         
         this.state = {
-            categories: [],
-            posts: [],
             showSideBar: true
         };
     }
     
     componentDidMount() {
-        getCategories().then(response => {
-            this.setState({categories: response.data.categories});
-        });
-        getAllPosts().then(response => {
-            debugger; // eslint-disable-line
-            this.setState({posts: response.data});
-        });
+        this.props.getCategories();
+        this.props.getAllPosts();
     }
     
     toggleSideBar = () => this.setState(prevState => ({showSideBar: !prevState.showSideBar}));
     
     handleNavClick = key => {
         if (key === '') {
-            return getAllPosts().then(response => {
-                this.setState({posts: response.data}, () => this.routeToCategory(key));
-            });
+            return this.props.getAllPosts();
         }
-        return getCategoryPosts(key).then(response => {
-            this.setState({posts: response.data}, () => this.routeToCategory(key));
-        });
+        return this.props.getCategoryPosts(key).then(() => this.routeToCategory(key));
     };
     
     routeToCategory = key => {
@@ -62,10 +53,12 @@ class ButtonAppBar extends Component {
         history.push(`/${key}`);
     };
     
-    render()    {
+    render() {
         const {classes, history} = this.props;
-        const {posts, categories, showSideBar} = this.state;
-    
+        const categories = this.props.categoriesReducer.get('categories');
+        const posts = this.props.postsReducer.get('posts');
+        const {showSideBar} = this.state;
+        
         const navBarStyling = [classes.sideNav];
         if (showSideBar) {
             navBarStyling.push(classes.sideNavToggle);
@@ -87,7 +80,7 @@ class ButtonAppBar extends Component {
                 </ListItem>
             );
         });
-    
+        
         const navItemClasses = [classes.itemGroup];
         if (history.location.pathname === '/') {
             navItemClasses.push(classes.activeItem);
@@ -140,6 +133,19 @@ class ButtonAppBar extends Component {
 ButtonAppBar.propTypes = {
     classes: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    postsReducer: PropTypes.object.isRequired,
+    categoriesReducer: PropTypes.object.isRequired,
+    getCategories: PropTypes.func.isRequired,
+    getAllPosts: PropTypes.func.isRequired,
+    getCategoryPosts: PropTypes.func.isRequired,
 };
 
-export default withStyles(homeStyle)(ButtonAppBar);
+const mapStateToProps = ({postsReducer, categoriesReducer}) => ({postsReducer, categoriesReducer});
+
+const mapDispatchToProps = dispatch => ({
+    getCategories: () => dispatch(getCategories()),
+    getAllPosts: () => dispatch(getAllPosts()),
+    getCategoryPosts: category => dispatch(getCategoryPosts(category)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(ButtonAppBar));
