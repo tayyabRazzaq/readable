@@ -14,9 +14,9 @@ export const savePost = postData => API.post('posts', postData);
 
 export const getPost = id => API.get(`posts/${id}`);
 
-export const votePost = (id, postData) => API.post(`posts/${id}`, postData);
+export const votePost = postData => API.post(`posts/${postData.id}`, postData);
 
-export const updatePost = (id, postData) => API.put(`posts/${id}`, postData);
+export const updatePost = postData => API.put(`posts/${postData.id}`, postData);
 
 export const deletePost = id => API.delete(`posts/${id}`);
 
@@ -28,8 +28,8 @@ export const saveComment = postData => API.post('comments', postData);
 
 export const getComment = id => API.get(`comments/${id}`);
 
-export const voteComment = (id, postData) => API.post(`comments/${id}`, postData);
+export const voteComment = postData => API.post(`comments/${postData.id}`, postData);
 
-export const updateComment = (id, postData) => API.put(`comments/${id}`, postData);
+export const updateComment = postData => API.put(`comments/${postData.id}`, postData);
 
 export const deleteComment = id => API.delete(`comments/${id}`);

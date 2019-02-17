@@ -48,10 +48,7 @@ class ButtonAppBar extends Component {
         return this.props.getCategoryPosts(key).then(() => this.routeToCategory(key));
     };
     
-    routeToCategory = key => {
-        const {history} = this.props;
-        history.push(`/${key}`);
-    };
+    routeToCategory = key => this.props.history.push(`/${key}`);
     
     render() {
         const {classes, history} = this.props;
