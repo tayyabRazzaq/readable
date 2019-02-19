@@ -13,16 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions, getCategories} from '../../actions';
-import {getSorting, stableSort} from '../../utils/helpers';
-import EnhancedTable from '../utils/ServerPaginatedTable/SortableTable';
+import SortableTable from '../utils/ServerPaginatedTable';
 
-const rows = [
-    {id: 'title', numeric: false, disablePadding: true, label: 'Title'},
-    {id: 'body', numeric: false, disablePadding: false, label: 'Body'},
-    {id: 'author', numeric: false, disablePadding: false, label: 'Author'},
-    {id: 'category', numeric: false, disablePadding: false, label: 'Category'},
-    {id: 'voteScore', numeric: true, disablePadding: false, label: 'Score'},
-];
 
 class ButtonAppBar extends Component {
     
@@ -30,11 +22,7 @@ class ButtonAppBar extends Component {
         super(props);
         
         this.state = {
-            showSideBar: true,
-            order: 'asc',
-            orderBy: '',
-            page: 0,
-            rowsPerPage: 10,
+            showSideBar: true
         };
     }
     
@@ -42,12 +30,6 @@ class ButtonAppBar extends Component {
         this.props.getCategories();
         this.props.getAllPosts();
     }
-    
-    handleRequestSort = (localOrder, localOrderBy) => this.setState({order: localOrder, orderBy: localOrderBy});
-    
-    handleChangePage = page => this.setState({page});
-    
-    handleChangeRowsPerPage = rowsPerPage => this.setState({rowsPerPage});
     
     toggleSideBar = () => this.setState(prevState => ({showSideBar: !prevState.showSideBar}));
     
@@ -64,16 +46,7 @@ class ButtonAppBar extends Component {
         const {classes, history} = this.props;
         const categories = this.props.categoriesReducer.get('categories');
         const posts = this.props.postsReducer.get('posts');
-    
-        const {showSideBar, page, rowsPerPage, order, orderBy} = this.state;
-        
-        const calculatedRowsPerPage = rowsPerPage === 'All' ? posts.length : rowsPerPage;
-        const sortedData = stableSort(posts, getSorting(order, orderBy));
-        const slicedData = sortedData.slice(
-            page * calculatedRowsPerPage, page * calculatedRowsPerPage + calculatedRowsPerPage);
-        
-        
-        
+        const {showSideBar} = this.state;
         const navBarStyling = [classes.sideNav];
         if (showSideBar) {
             navBarStyling.push(classes.sideNavToggle);
@@ -137,17 +110,7 @@ class ButtonAppBar extends Component {
                 </nav>
                 <div id="main-content">
                     <div>
-                        <EnhancedTable
-                            data={slicedData}
-                            headers={rows}
-                            order={order}
-                            orderBy={orderBy}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            handleRequestSort={this.handleRequestSort}
-                            handleChangePage={this.handleChangePage}
-                            handleChangeRowsPerPage={this.handleChangeRowsPerPage}
-                        />
+                        <SortableTable posts={posts}/>
                     </div>
                 </div>
             </div>

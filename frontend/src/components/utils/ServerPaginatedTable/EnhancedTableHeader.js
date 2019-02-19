@@ -8,10 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 
 class EnhancedTableHead extends React.Component {
-    createSortHandler = property => event => {
-        const {onRequestSort} = this.props;
-        onRequestSort(event, property);
-    };
+    createSortHandler = property => event => this.props.onRequestSort(event, property);
     
     render() {
         const {order, orderBy, rows} = this.props;

@@ -40,7 +40,7 @@ class EnhancedTable extends React.Component {
     handleChangeRowsPerPage = event => this.props.handleChangeRowsPerPage(event.target.value);
     
     render() {
-        const {classes, headers, data, order, orderBy, rowsPerPage, page} = this.props;
+        const {classes, headers, data, order, orderBy, rowsPerPage, page, totalCount} = this.props;
         const calculatedRowsPerPage = rowsPerPage === 'All' ? data.length : rowsPerPage;
         const renderedData = data.map(row => {
             const renderedColumns = headers.map(column => (
@@ -59,7 +59,6 @@ class EnhancedTable extends React.Component {
             );
         });
         const paginationOptions = [1, 5, 10, 15];
-        const totalCount = data.length;
         return (
             <Paper className={classes.root}>
                 <div className={classes.tableWrapper}>
@@ -102,6 +101,7 @@ EnhancedTable.propTypes = {
     order: PropTypes.string.isRequired,
     orderBy: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
     rowsPerPage: PropTypes.oneOf([PropTypes.number, PropTypes.string]).isRequired,
     handleChangePage: PropTypes.func.isRequired,
     handleChangeRowsPerPage: PropTypes.func.isRequired,
