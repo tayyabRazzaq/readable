@@ -13,7 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions, getCategories} from '../../actions';
-import EnhancedTable from '../utils/ClientPaginatedTable/SortableTable';
+import {getSorting, stableSort} from '../../utils/helpers';
+import EnhancedTable from '../utils/ServerPaginatedTable/SortableTable';
 
 const rows = [
     {id: 'title', numeric: false, disablePadding: true, label: 'Title'},
@@ -29,7 +30,11 @@ class ButtonAppBar extends Component {
         super(props);
         
         this.state = {
-            showSideBar: true
+            showSideBar: true,
+            order: 'asc',
+            orderBy: '',
+            page: 0,
+            rowsPerPage: 10,
         };
     }
     
@@ -37,6 +42,12 @@ class ButtonAppBar extends Component {
         this.props.getCategories();
         this.props.getAllPosts();
     }
+    
+    handleRequestSort = (localOrder, localOrderBy) => this.setState({order: localOrder, orderBy: localOrderBy});
+    
+    handleChangePage = page => this.setState({page});
+    
+    handleChangeRowsPerPage = rowsPerPage => this.setState({rowsPerPage});
     
     toggleSideBar = () => this.setState(prevState => ({showSideBar: !prevState.showSideBar}));
     
@@ -53,7 +64,15 @@ class ButtonAppBar extends Component {
         const {classes, history} = this.props;
         const categories = this.props.categoriesReducer.get('categories');
         const posts = this.props.postsReducer.get('posts');
-        const {showSideBar} = this.state;
+    
+        const {showSideBar, page, rowsPerPage, order, orderBy} = this.state;
+        
+        const calculatedRowsPerPage = rowsPerPage === 'All' ? posts.length : rowsPerPage;
+        const sortedData = stableSort(posts, getSorting(order, orderBy));
+        const slicedData = sortedData.slice(
+            page * calculatedRowsPerPage, page * calculatedRowsPerPage + calculatedRowsPerPage);
+        
+        
         
         const navBarStyling = [classes.sideNav];
         if (showSideBar) {
@@ -118,7 +137,17 @@ class ButtonAppBar extends Component {
                 </nav>
                 <div id="main-content">
                     <div>
-                        <EnhancedTable data={posts} headers={rows}/>
+                        <EnhancedTable
+                            data={slicedData}
+                            headers={rows}
+                            order={order}
+                            orderBy={orderBy}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            handleRequestSort={this.handleRequestSort}
+                            handleChangePage={this.handleChangePage}
+                            handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+                        />
                     </div>
                 </div>
             </div>

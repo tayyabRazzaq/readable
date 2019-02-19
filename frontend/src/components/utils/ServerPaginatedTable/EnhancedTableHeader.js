@@ -4,7 +4,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
@@ -15,7 +14,7 @@ class EnhancedTableHead extends React.Component {
     };
     
     render() {
-        const {onSelectAllClick, order, orderBy, numSelected, rowCount, rows} = this.props;
+        const {order, orderBy, rows} = this.props;
         
         const headers = rows.map(row => (
             <TableCell
@@ -41,13 +40,6 @@ class EnhancedTableHead extends React.Component {
         return (
             <TableHead>
                 <TableRow>
-                    <TableCell padding="checkbox">
-                        <Checkbox
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                        />
-                    </TableCell>
                     {headers}
                 </TableRow>
             </TableHead>
@@ -56,12 +48,9 @@ class EnhancedTableHead extends React.Component {
 }
 
 EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.string.isRequired,
     orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
     rows: PropTypes.array.isRequired
 };
 
