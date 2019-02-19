@@ -1,9 +1,9 @@
 import getCategories from './categoriesActions';
-import * as commentsActions from './commentsActions';
 import * as postsActions from './postsActions';
+import * as commentsActions from './commentsActions';
 
 export {
-    commentsActions,
     getCategories,
     postsActions,
+    commentsActions,
 };

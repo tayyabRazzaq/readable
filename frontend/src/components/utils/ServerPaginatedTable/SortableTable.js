@@ -8,10 +8,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import {isEqual} from 'lodash';
 import EnhancedTableToolbar from './EnhanceTableToolbar';
 import EnhancedTableHead from './EnhancedTableHeader';
-import {getSorting, stableSort} from '../../utils/helpers';
+import {getSorting, stableSort} from '../../../utils/helpers';
 
 
 const styles = theme => ({
@@ -34,19 +33,9 @@ class EnhancedTable extends React.Component {
             order: 'asc',
             orderBy: '',
             selected: [],
-            data: props.data,
             page: 0,
             rowsPerPage: 10,
         };
-    }
-    
-    static getDerivedStateFromProps(props, state) {
-        if (!isEqual(props.data, state.data)) {
-            return {
-                data: props.data,
-            };
-        }
-        return null;
     }
     
     handleRequestSort = (event, property) => {
@@ -61,7 +50,7 @@ class EnhancedTable extends React.Component {
     
     handleSelectAllClick = event => {
         if (event.target.checked) {
-            this.setState(prevState => ({selected: prevState.data.map(row => row.id)}));
+            this.setState({selected: this.props.data.map(row => row.id)});
             return;
         }
         this.setState({selected: []});
@@ -98,8 +87,8 @@ class EnhancedTable extends React.Component {
     };
     
     render() {
-        const {classes, headers} = this.props;
-        const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
+        const {classes, headers, data} = this.props;
+        const {order, orderBy, selected, rowsPerPage, page} = this.state;
         const calculatedRowsPerPage = rowsPerPage === 'All' ? data.length : rowsPerPage;
         const sortedData = stableSort(data, getSorting(order, orderBy));
         const slicedData = sortedData.slice(

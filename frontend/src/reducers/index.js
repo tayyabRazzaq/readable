@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux';
+import categoriesReducer from './categoriesReducer';
 import postsReducer from './postsReducer';
 import commentsReducer from './commentsReducer';
-import categoriesReducer from './categoriesReducer';
 
 const rootReducer = combineReducers({
+    categoriesReducer,
     postsReducer,
-    commentsReducer,
-    categoriesReducer
+    commentsReducer
 });
 
 export default rootReducer;

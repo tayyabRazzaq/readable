@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions, getCategories} from '../../actions';
-import EnhancedTable from '../utils/SortableTable';
+import EnhancedTable from '../utils/ClientPaginatedTable/SortableTable';
 
 const rows = [
     {id: 'title', numeric: false, disablePadding: true, label: 'Title'},
@@ -85,7 +85,7 @@ class ButtonAppBar extends Component {
         return (
             <div className={classes.root}>
                 <AppBar
-                    position="static" color='default'
+                    position="static" color="default"
                     classes={{
                         colorDefault: classes.appBar
                     }}>
@@ -105,18 +105,18 @@ class ButtonAppBar extends Component {
                 <nav className={navBarStyling.join(' ')}>
                     <List
                         className={classes.navList}
-                        component='nav'>
+                        component="nav">
                         <ListItem
                             button onClick={() => this.handleNavClick('')}
                             className={navItemClasses.join(' ')}>
                             <ListItemText
-                                inset primary='All'
+                                inset primary="All"
                                 className={classes.ListItem} disableTypography/>
                         </ListItem>
                         {categoriesList}
                     </List>
                 </nav>
-                <div id='main-content'>
+                <div id="main-content">
                     <div>
                         <EnhancedTable data={posts} headers={rows}/>
                     </div>

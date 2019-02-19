@@ -7,14 +7,12 @@ import history from './history';
 import store from './store';
 import theme from './styles/theme';
 
-export default props => {
-    return (
-        <MuiThemeProvider theme={theme}>
-            <Provider store={store} {...props}>
-                <Router history={history}>
-                    <Route path='/' component={Page}/>
-                </Router>
-            </Provider>
-        </MuiThemeProvider>
-    );
-};
+export default props => (
+    <MuiThemeProvider theme={theme}>
+        <Provider store={store} {...props}>
+            <Router history={history}>
+                <Route path="/" component={Page}/>
+            </Router>
+        </Provider>
+    </MuiThemeProvider>
+);

@@ -9,9 +9,9 @@ const getRequestHeaders = () => {
         localStorage.setItem('token', token);
     }
     return {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': token
+        Authorization: token
     };
 };
 
@@ -21,18 +21,10 @@ export const configObj = {
 
 const getServerUrl = requestUrl => `${apiUrl}/${requestUrl}`;
 
-export const apiGet = requestUrl => {
-    return axios.get(getServerUrl(requestUrl), configObj);
-};
+export const apiGet = requestUrl => axios.get(getServerUrl(requestUrl), configObj);
 
-export const apiPost = (requestUrl, postData) => {
-    return axios.post(getServerUrl(requestUrl), postData, configObj);
-};
+export const apiPost = (requestUrl, postData) => axios.post(getServerUrl(requestUrl), postData, configObj);
 
-export const apiPut = (requestUrl, postData) => {
-    return axios.put(getServerUrl(requestUrl), postData, configObj);
-};
+export const apiPut = (requestUrl, postData) => axios.put(getServerUrl(requestUrl), postData, configObj);
 
-export const apiDelete = requestUrl => {
-    return axios.delete(getServerUrl(requestUrl), configObj);
-};
+export const apiDelete = requestUrl => axios.delete(getServerUrl(requestUrl), configObj);

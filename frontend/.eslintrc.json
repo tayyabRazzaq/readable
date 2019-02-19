@@ -48,6 +48,12 @@
 		"react/forbid-prop-types": 0,
 		"react/destructuring-assignment": 0,
 		"spaced-comment": 0,
+		"arrow-body-style": ["error", "as-needed"],
+		"func-style": ["error", "expression"],
+		"quote-props": ["error", "as-needed"],
+		"no-extra-parens": "error",
+		"no-extra-bind": "error",
+		"jsx-quotes": ["error", "prefer-double"],
 		"max-len": [
 			"error",
 			{

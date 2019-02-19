@@ -18,7 +18,5 @@ export const stableSort = (array, orderType) => {
     return stabilizedThis.map(el => el[0]);
 };
 
-export const getSorting = (order, orderBy) => {
-    return order === 'desc' ? (firstObject, secondObject) => desc(
-        firstObject, secondObject, orderBy) : (a, b) => -desc(a, b, orderBy);
-};
+export const getSorting = (order, orderBy) => order === 'desc' ? (firstObject, secondObject) => desc(
+    firstObject, secondObject, orderBy) : (a, b) => -desc(a, b, orderBy);
