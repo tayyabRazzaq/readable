@@ -69,12 +69,6 @@
 				]
 			}
 		],
-		"dot-notation": [
-			2,
-			{
-				"allowPattern": "^[a-z]+(_[a-z]+)+$"
-			}
-		],
 		"no-unused-vars": [
 			"error",
 			{
@@ -97,22 +91,6 @@
 		"semi": [
 			"error",
 			"always"
-		],
-		"camelcase": [
-			"error",
-			{
-				"properties": "never"
-			}
 		]
-//		"react/no-string-refs": 0,
-//		"react/prop-types": 0,
-//		"react/no-direct-mutation-state": 0,
-//		"class-methods-use-this": 0,
-//		"react/no-array-index-key": 0,
-//		"jsx-a11y/anchor-is-valid": 0,
-//		"jsx-a11y/label-has-associated-control": 0,
-//		"jsx-a11y/label-has-for": 0,
-//		"linebreak-style": 0,
-//		"jsx-a11y/anchor-has-content": 0,
 	}
 }
