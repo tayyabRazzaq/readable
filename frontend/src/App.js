@@ -1,22 +1,120 @@
+import {AppBar, IconButton, List, ListItem, ListItemText, Toolbar, Typography, withStyles} from '@material-ui/core';
+import {Menu as MenuIcon} from '@material-ui/icons';
+import * as PropTypes from 'prop-types';
 import React from 'react';
-import {MuiThemeProvider} from '@material-ui/core/styles';
-import {Provider} from 'react-redux';
-import {Route, Router, Switch} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Route, Switch} from 'react-router-dom';
+import {getCategories} from './actions';
 import {Page} from './components';
-import history from './history';
-import store from './store';
-import theme from './styles/theme';
+import homeStyle from './styles/homeStyles';
 
-export default props => (
-    <MuiThemeProvider theme={theme}>
-        <Provider store={store} {...props}>
-            <Router history={history}>
-                <Switch>
-                    <Route exact path="/" component={Page}/>
-                    <Route exact path="/:category" component={Page}/>
-                    <Route exact path="/:category/:postId" render={() => <div/>}/>
-                </Switch>
-            </Router>
-        </Provider>
-    </MuiThemeProvider>
-);
+class MainApp extends React.Component {
+    
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            showSideBar: true
+        };
+    }
+    
+    componentDidMount() {
+        this.props.getCategories();
+    }
+    
+    toggleSideBar = () => this.setState(prevState => ({showSideBar: !prevState.showSideBar}));
+    
+    handleNavClick = key => key === '' ? this.props.history.push('/') : this.props.history.push(`/${key}`);
+    
+    render() {
+    
+        const {classes, history} = this.props;
+        const categories = this.props.categoriesReducer.get('categories');
+    
+        const {showSideBar} = this.state;
+        const navBarStyling = [classes.sideNav];
+        if (showSideBar) {
+            navBarStyling.push(classes.sideNavToggle);
+        }
+        
+        const categoriesList = categories.map(category => {
+            const navItemClasses = [classes.itemGroup];
+            if (`/${category.path}` === history.location.pathname) {
+                navItemClasses.push(classes.activeItem);
+            }
+            return (
+                <ListItem
+                    key={category.name}
+                    button onClick={() => this.handleNavClick(category.path)}
+                    className={navItemClasses.join(' ')}>
+                    <ListItemText
+                        inset primary={category.name}
+                        className={classes.ListItem} disableTypography/>
+                </ListItem>
+            );
+        });
+    
+        const navItemClasses = [classes.itemGroup];
+        if (history.location.pathname === '/') {
+            navItemClasses.push(classes.activeItem);
+        }
+        
+        return (
+            <div className={classes.root}>
+                <AppBar
+                    position="static" color="default"
+                    classes={{
+                        colorDefault: classes.appBar
+                    }}>
+                    <Toolbar>
+                        <IconButton
+                            onClick={this.toggleSideBar}
+                            className={classes.menuButton} color="inherit"
+                            aria-label="Menu">
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant="h6" color="inherit" className={classes.grow}>
+                            Readable
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <nav className={navBarStyling.join(' ')}>
+                    <List
+                        className={classes.navList}
+                        component="nav">
+                        <ListItem
+                            button onClick={() => this.handleNavClick('')}
+                            className={navItemClasses.join(' ')}>
+                            <ListItemText
+                                inset primary="All"
+                                className={classes.ListItem} disableTypography/>
+                        </ListItem>
+                        {categoriesList}
+                    </List>
+                </nav>
+                <div id="main-content">
+                    <Switch>
+                        <Route exact path="/" component={Page}/>
+                        <Route exact path="/:category" component={Page}/>
+                        <Route exact path="/:category/:postId" render={() => <div/>}/>
+                    </Switch>
+                </div>
+            </div>
+        );
+    }
+}
+
+MainApp.propTypes = {
+    classes: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    categoriesReducer: PropTypes.object.isRequired,
+    getCategories: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({categoriesReducer}) => ({categoriesReducer});
+
+const mapDispatchToProps = dispatch => ({
+    getCategories: () => dispatch(getCategories()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(MainApp));
