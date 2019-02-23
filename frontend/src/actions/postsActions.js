@@ -28,7 +28,7 @@ const getPostAction = id => dispatch => dispatch(
 );
 
 const votePostAction = postData => dispatch => dispatch(
-    performServerCall(votePost, postData, VOTE_POST_SUCCESSFULLY, VOTE_POST_FAILED)
+    performServerCall(votePost, postData, VOTE_POST_SUCCESSFULLY, VOTE_POST_FAILED, {id: postData.id})
 );
 
 const updatePostAction = postData => dispatch => dispatch(
@@ -36,7 +36,7 @@ const updatePostAction = postData => dispatch => dispatch(
 );
 
 const deletePostAction = id => dispatch => dispatch(
-    performServerCall(deletePost, id, DELETE_POST_SUCCESSFULLY, DELETE_POST_FAILED)
+    performServerCall(deletePost, id, DELETE_POST_SUCCESSFULLY, DELETE_POST_FAILED, {id})
 );
 
 export {

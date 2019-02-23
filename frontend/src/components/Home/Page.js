@@ -1,22 +1,14 @@
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import React, {Component} from 'react';
 import * as PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import {IconButton, Toolbar, AppBar, Typography, List, ListItem, ListItemText, withStyles} from '@material-ui/core';
+import {Menu as MenuIcon} from '@material-ui/icons';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions, getCategories} from '../../actions';
-import SortableTable from '../utils/ServerPaginatedTable';
+import PostTable from './PostTable';
 
 
-class ButtonAppBar extends Component {
+class MainPage extends Component {
     
     constructor(props) {
         super(props);
@@ -28,19 +20,31 @@ class ButtonAppBar extends Component {
     
     componentDidMount() {
         this.props.getCategories();
-        this.props.getAllPosts();
+        const {category} = this.props.match.params;
+        return category ? this.props.getCategoryPosts(category) : this.props.getAllPosts();
+    }
+    
+    // eslint-disable-next-line
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {category} = this.props.match.params;
+        const {category: prevCategory} = prevProps.match.params;
+        if (category && (!prevCategory || category !== prevCategory)) {
+            this.props.getCategoryPosts(category);
+        }
+        else if (!category && prevCategory) {
+            this.props.getAllPosts();
+        }
     }
     
     toggleSideBar = () => this.setState(prevState => ({showSideBar: !prevState.showSideBar}));
     
-    handleNavClick = key => {
-        if (key === '') {
-            return this.props.getAllPosts().then(() => this.props.history.push('/'));
-        }
-        return this.props.getCategoryPosts(key).then(() => this.routeToCategory(key));
-    };
+    handleNavClick = key => key === '' ? this.props.history.push('/') : this.props.history.push(`/${key}`);
     
-    routeToCategory = key => this.props.history.push(`/${key}`);
+    votePost = (id, option) => this.props.votePost({id, option});
+    
+    deletePost = postId => this.props.deletePost(postId);
+    
+    viewPost = (postId, category) => this.props.history.push(`/${category}/${postId}`);
     
     render() {
         const {classes, history} = this.props;
@@ -91,7 +95,6 @@ class ButtonAppBar extends Component {
                         <Typography variant="h6" color="inherit" className={classes.grow}>
                             Readable
                         </Typography>
-                        <Button color="inherit">Login</Button>
                     </Toolbar>
                 </AppBar>
                 <nav className={navBarStyling.join(' ')}>
@@ -110,7 +113,12 @@ class ButtonAppBar extends Component {
                 </nav>
                 <div id="main-content">
                     <div>
-                        <SortableTable posts={posts}/>
+                        <PostTable
+                            posts={posts}
+                            votePost={this.votePost}
+                            deletePost={this.deletePost}
+                            viewPost={this.viewPost}
+                        />
                     </div>
                 </div>
             </div>
@@ -118,14 +126,17 @@ class ButtonAppBar extends Component {
     }
 }
 
-ButtonAppBar.propTypes = {
+MainPage.propTypes = {
     classes: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     postsReducer: PropTypes.object.isRequired,
     categoriesReducer: PropTypes.object.isRequired,
     getCategories: PropTypes.func.isRequired,
     getAllPosts: PropTypes.func.isRequired,
     getCategoryPosts: PropTypes.func.isRequired,
+    votePost: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({postsReducer, categoriesReducer}) => ({postsReducer, categoriesReducer});
@@ -134,6 +145,8 @@ const mapDispatchToProps = dispatch => ({
     getCategories: () => dispatch(getCategories()),
     getAllPosts: () => dispatch(postsActions.getAllPosts()),
     getCategoryPosts: category => dispatch(postsActions.getCategoryPosts(category)),
+    votePost: postData => dispatch(postsActions.votePost(postData)),
+    deletePost: postId => dispatch(postsActions.deletePost(postId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(ButtonAppBar));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(MainPage));

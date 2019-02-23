@@ -67,12 +67,12 @@ export default (state = initialState, action) => {
         case VOTE_POST_SUCCESSFULLY:
             return state.merge({
                 post: action.response.data,
+                posts: state.get('posts').map(post => post.id === action.successData.id ? action.response.data : post),
                 error: null,
                 statusSuccess: true,
             });
         case VOTE_POST_FAILED:
             return state.merge({
-                post: [],
                 error: action.response.error,
                 statusSuccess: false,
             });
@@ -90,13 +90,13 @@ export default (state = initialState, action) => {
             });
         case DELETE_POST_SUCCESSFULLY:
             return state.merge({
-                post: action.response.data,
+                posts: state.get('posts').filter(post => post.id !== action.successData.id),
+                post: {},
                 error: null,
                 statusSuccess: true,
             });
         case DELETE_POST_FAILED:
             return state.merge({
-                post: [],
                 error: action.response.error,
                 statusSuccess: false,
             });
