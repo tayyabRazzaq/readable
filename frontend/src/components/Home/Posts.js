@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import * as PropTypes from 'prop-types';
-import {TableRow, TableCell, Table, TableBody, IconButton, Grid, withStyles} from '@material-ui/core';
-import {DeleteForeverOutlined, RemoveRedEyeOutlined, ThumbDownOutlined, ThumbUpOutlined} from '@material-ui/icons';
+import {Grid, withStyles} from '@material-ui/core';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions} from '../../actions';
-import {getSorting, stableSort} from '../../utils/helpers';
-import PostTableHeader from './PostTableHeader';
+import {generateUID} from '../../utils/helpers';
+import PostsTable from './PostsTable';
 import NewPost from './NewPost';
 
 
@@ -18,6 +17,19 @@ class Posts extends Component {
         this.state = {
             order: 'asc',
             orderBy: '',
+            open: false,
+            post: {
+                title: '',
+                author: '',
+                body: '',
+                category: '',
+            },
+            error: {
+                title: false,
+                author: false,
+                body: false,
+                category: false,
+            }
         };
     }
     
@@ -37,6 +49,50 @@ class Posts extends Component {
         }
     }
     
+    handleToggle = () => this.setState(prevState => ({open: !prevState.open}));
+    
+    onChange = (e, property) => {
+        const {post, error} = this.state;
+        post[property] = e.target.value;
+        error[property] = false;
+        this.setState({post, error});
+    };
+    
+    submitPost = () => {
+        const {post, error} = this.state;
+        let anyError = false;
+        Object.keys(post).forEach(key => {
+            if (!post[key].toString().trim()) {
+                error[key] = true;
+                anyError = true;
+            }
+        });
+        if (anyError) {
+            return this.setState({error});
+        }
+        if ('id' in post) {
+            return this.props.updatePost(post).then(() => this.cancelPost());
+        }
+        post.id = generateUID();
+        post.timestamp = Date.now();
+        return this.props.savePost(post).then(() => this.cancelPost());
+    };
+    
+    cancelPost = () => this.setState({
+        post: {
+            title: '',
+            author: '',
+            body: '',
+            category: '',
+        },
+        error: {
+            title: false,
+            author: false,
+            body: false,
+            category: false,
+        }
+    }, this.handleToggle);
+    
     handleRequestSort = (event, property) => {
         const localOrderBy = property;
         let localOrder = 'desc';
@@ -53,73 +109,47 @@ class Posts extends Component {
     
     viewPost = (postId, category) => this.props.history.push(`/${category}/${postId}`);
     
-    savePost = (postData, callBack) => this.props.savePost(postData).then(() => {
-        if (callBack) {
-            callBack();
+    editPost = postId => {
+        const posts = this.props.postsReducer.get('posts');
+        const post = posts.find(postData => postData.id === postId);
+        if (post) {
+            this.setState({post: {...post}}, this.handleToggle);
         }
-    });
+    };
     
     render() {
         
-        const {order, orderBy} = this.state;
+        const {order, orderBy, open, post: localPost, error} = this.state;
         
         const posts = this.props.postsReducer.get('posts');
         const categories = this.props.categoriesReducer.get('categories');
-        
-        const rows = [
-            {id: 'title', label: 'Title', order: true},
-            {id: 'author', label: 'Author', order: true},
-            {id: 'commentCount', label: 'No. of Comments', order: true},
-            {id: 'voteScore', label: 'Current Score', order: true},
-            {id: 'vote', label: 'Vote', order: false},
-            {id: 'action', label: 'Actions', order: false},
-        ];
-        
-        const sortedPosts = stableSort(posts, getSorting(order, orderBy));
-        
-        const postTable = sortedPosts.map(post => (
-            <TableRow key={post.id}>
-                <TableCell>{post.title}</TableCell>
-                <TableCell align="center">{post.author}</TableCell>
-                <TableCell align="center">{post.commentCount}</TableCell>
-                <TableCell align="center">{post.voteScore}</TableCell>
-                <TableCell align="center">
-                    <IconButton onClick={() => this.votePost(post.id, 'upVote')}>
-                        <ThumbUpOutlined/>
-                    </IconButton>
-                    <IconButton onClick={() => this.votePost(post.id, 'downVote')}>
-                        <ThumbDownOutlined/>
-                    </IconButton>
-                </TableCell>
-                <TableCell align="center">
-                    <IconButton onClick={() => this.viewPost(post.id, post.category)}>
-                        <RemoveRedEyeOutlined/>
-                    </IconButton>
-                    <IconButton onClick={() => this.deletePost(post.id)}>
-                        <DeleteForeverOutlined/>
-                    </IconButton>
-                </TableCell>
-            </TableRow>
-        ));
         
         return (
             <div>
                 <Grid container direction="row-reverse" justify="flex-start" alignItems="center">
                     <Grid item sm={1}>
-                        <NewPost categories={categories} savePost={this.savePost}/>
+                        <NewPost
+                            categories={categories}
+                            open={open}
+                            post={localPost}
+                            error={error}
+                            handleToggle={this.handleToggle}
+                            cancelPost={this.cancelPost}
+                            submitPost={this.submitPost}
+                            onChange={this.onChange}
+                        />
                     </Grid>
                 </Grid>
-                <Table>
-                    <PostTableHeader
-                        rows={rows}
-                        order={order}
-                        orderBy={orderBy}
-                        onRequestSort={this.handleRequestSort}
-                    />
-                    <TableBody>
-                        {postTable}
-                    </TableBody>
-                </Table>
+                <PostsTable
+                    order={order}
+                    orderBy={orderBy}
+                    posts={posts}
+                    viewPost={this.viewPost}
+                    deletePost={this.deletePost}
+                    editPost={this.editPost}
+                    votePost={this.votePost}
+                    handleRequestSort={this.handleRequestSort}
+                />
             </div>
         );
     }
@@ -136,6 +166,7 @@ Posts.propTypes = {
     votePost: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
     savePost: PropTypes.func.isRequired,
+    updatePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({postsReducer, categoriesReducer}) => ({postsReducer, categoriesReducer});
@@ -146,6 +177,7 @@ const mapDispatchToProps = dispatch => ({
     votePost: postData => dispatch(postsActions.votePost(postData)),
     deletePost: postId => dispatch(postsActions.deletePost(postId)),
     savePost: postData => dispatch(postsActions.savePost(postData)),
+    updatePost: postData => dispatch(postsActions.updatePost(postData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(Posts));

@@ -32,7 +32,7 @@ const votePostAction = postData => dispatch => dispatch(
 );
 
 const updatePostAction = postData => dispatch => dispatch(
-    performServerCall(updatePost, postData, UPDATE_POST_SUCCESSFULLY, UPDATE_POST_FAILED)
+    performServerCall(updatePost, postData, UPDATE_POST_SUCCESSFULLY, UPDATE_POST_FAILED, {id: postData.id})
 );
 
 const deletePostAction = id => dispatch => dispatch(

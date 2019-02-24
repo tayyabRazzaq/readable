@@ -78,6 +78,7 @@ export default (state = initialState, action) => {
             });
         case UPDATE_POST_SUCCESSFULLY:
             return state.merge({
+                posts: state.get('posts').map(post => post.id === action.successData.id ? action.response.data : post),
                 post: action.response.data,
                 error: null,
                 statusSuccess: true,
