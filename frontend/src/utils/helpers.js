@@ -20,3 +20,6 @@ export const stableSort = (array, orderType) => {
 
 export const getSorting = (order, orderBy) => order === 'desc' ? (firstObject, secondObject) => desc(
     firstObject, secondObject, orderBy) : (a, b) => -desc(a, b, orderBy);
+
+export const generateUID = () =>
+    Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

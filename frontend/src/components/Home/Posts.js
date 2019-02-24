@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
 import * as PropTypes from 'prop-types';
-import {TableRow, TableCell, Table, TableHead, TableBody, IconButton, withStyles} from '@material-ui/core';
+import {TableRow, TableCell, Table, TableBody, IconButton, Grid, withStyles} from '@material-ui/core';
 import {DeleteForeverOutlined, RemoveRedEyeOutlined, ThumbDownOutlined, ThumbUpOutlined} from '@material-ui/icons';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions} from '../../actions';
+import {getSorting, stableSort} from '../../utils/helpers';
+import PostTableHeader from './PostTableHeader';
+import NewPost from './NewPost';
 
 
-class MainPage extends Component {
+class Posts extends Component {
+    
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            order: 'asc',
+            orderBy: '',
+        };
+    }
     
     componentDidMount() {
         const {category} = this.props.match.params;
@@ -25,16 +37,47 @@ class MainPage extends Component {
         }
     }
     
+    handleRequestSort = (event, property) => {
+        const localOrderBy = property;
+        let localOrder = 'desc';
+        const {orderBy, order} = this.state;
+        if (orderBy === property && order === 'desc') {
+            localOrder = 'asc';
+        }
+        this.setState({order: localOrder, orderBy: localOrderBy});
+    };
+    
     votePost = (id, option) => this.props.votePost({id, option});
     
     deletePost = postId => this.props.deletePost(postId);
     
     viewPost = (postId, category) => this.props.history.push(`/${category}/${postId}`);
     
+    savePost = (postData, callBack) => this.props.savePost(postData).then(() => {
+        if (callBack) {
+            callBack();
+        }
+    });
+    
     render() {
-        const posts = this.props.postsReducer.get('posts');
         
-        const postTable = posts.map(post => (
+        const {order, orderBy} = this.state;
+        
+        const posts = this.props.postsReducer.get('posts');
+        const categories = this.props.categoriesReducer.get('categories');
+        
+        const rows = [
+            {id: 'title', label: 'Title', order: true},
+            {id: 'author', label: 'Author', order: true},
+            {id: 'commentCount', label: 'No. of Comments', order: true},
+            {id: 'voteScore', label: 'Current Score', order: true},
+            {id: 'vote', label: 'Vote', order: false},
+            {id: 'action', label: 'Actions', order: false},
+        ];
+        
+        const sortedPosts = stableSort(posts, getSorting(order, orderBy));
+        
+        const postTable = sortedPosts.map(post => (
             <TableRow key={post.id}>
                 <TableCell>{post.title}</TableCell>
                 <TableCell align="center">{post.author}</TableCell>
@@ -61,17 +104,18 @@ class MainPage extends Component {
         
         return (
             <div>
+                <Grid container direction="row-reverse" justify="flex-start" alignItems="center">
+                    <Grid item sm={1}>
+                        <NewPost categories={categories} savePost={this.savePost}/>
+                    </Grid>
+                </Grid>
                 <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell align="center">Author</TableCell>
-                            <TableCell align="center">No. of Comments</TableCell>
-                            <TableCell align="center">Current Score</TableCell>
-                            <TableCell align="center">Vote</TableCell>
-                            <TableCell align="center">Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
+                    <PostTableHeader
+                        rows={rows}
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={this.handleRequestSort}
+                    />
                     <TableBody>
                         {postTable}
                     </TableBody>
@@ -81,24 +125,27 @@ class MainPage extends Component {
     }
 }
 
-MainPage.propTypes = {
+Posts.propTypes = {
     // classes: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     postsReducer: PropTypes.object.isRequired,
+    categoriesReducer: PropTypes.object.isRequired,
     getAllPosts: PropTypes.func.isRequired,
     getCategoryPosts: PropTypes.func.isRequired,
     votePost: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
+    savePost: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({postsReducer}) => ({postsReducer});
+const mapStateToProps = ({postsReducer, categoriesReducer}) => ({postsReducer, categoriesReducer});
 
 const mapDispatchToProps = dispatch => ({
     getAllPosts: () => dispatch(postsActions.getAllPosts()),
     getCategoryPosts: category => dispatch(postsActions.getCategoryPosts(category)),
     votePost: postData => dispatch(postsActions.votePost(postData)),
     deletePost: postId => dispatch(postsActions.deletePost(postId)),
+    savePost: postData => dispatch(postsActions.savePost(postData)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(MainPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(Posts));

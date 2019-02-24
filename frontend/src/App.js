@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 import {getCategories} from './actions';
-import {Page} from './components';
+import {Posts} from './components';
 import homeStyle from './styles/homeStyles';
 
 class MainApp extends React.Component {
@@ -94,8 +94,8 @@ class MainApp extends React.Component {
                 </nav>
                 <div id="main-content">
                     <Switch>
-                        <Route exact path="/" component={Page}/>
-                        <Route exact path="/:category" component={Page}/>
+                        <Route exact path="/" component={Posts}/>
+                        <Route exact path="/:category" component={Posts}/>
                         <Route exact path="/:category/:postId" render={() => <div/>}/>
                     </Switch>
                 </div>

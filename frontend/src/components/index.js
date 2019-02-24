@@ -1,5 +1,5 @@
-import _Page from './Home/Page';
+import _Posts from './Home/Posts';
 
 export {
-    _Page as Page
+    _Posts as Posts
 };

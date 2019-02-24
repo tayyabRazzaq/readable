@@ -57,6 +57,15 @@ const homeStyle = theme => ({
     activeItem: {
         opacity: '1'
     },
+    addPost: {
+        marginTop: '10px',
+        marginBottom: '20px',
+        float: 'right'
+    },
+    postField: {
+        marginBottom: '20px',
+        marginTop: '10px',
+    }
 });
 
 
