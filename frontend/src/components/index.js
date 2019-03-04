@@ -1,5 +1,7 @@
-import _Posts from './Home/Posts';
+import {Posts} from './Home';
+import {Post} from './Post';
 
 export {
-    _Posts as Posts
+    Posts,
+    Post
 };

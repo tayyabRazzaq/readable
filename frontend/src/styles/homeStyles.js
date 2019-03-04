@@ -1,7 +1,7 @@
 import {grayColor, white, transition} from './style';
 
 
-const homeStyle = theme => ({
+export default theme => ({
     root: {...theme.root},
     paper: {
         padding: theme.spacing.unit * 2,
@@ -67,6 +67,3 @@ const homeStyle = theme => ({
         marginTop: '10px',
     }
 });
-
-
-export default homeStyle;

@@ -3,9 +3,8 @@ import {Menu as MenuIcon} from '@material-ui/icons';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-import {Route, Switch} from 'react-router-dom';
+import routes from './routes';
 import {getCategories} from './actions';
-import {Posts} from './components';
 import homeStyle from './styles/homeStyles';
 
 class MainApp extends React.Component {
@@ -93,11 +92,7 @@ class MainApp extends React.Component {
                     </List>
                 </nav>
                 <div id="main-content">
-                    <Switch>
-                        <Route exact path="/" component={Posts}/>
-                        <Route exact path="/:category" component={Posts}/>
-                        <Route exact path="/:category/:postId" render={() => <div/>}/>
-                    </Switch>
+                    {routes}
                 </div>
             </div>
         );
