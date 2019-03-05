@@ -97,13 +97,6 @@ const NewPost = props => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button
-                onClick={props.handleToggle}
-                className={classes.addPost}
-                color="default"
-                variant="outlined">
-                Add Post
-            </Button>
         </div>
     );
 };
@@ -117,7 +110,6 @@ NewPost.propTypes = {
     categories: PropTypes.array.isRequired,
     submitPost: PropTypes.func.isRequired,
     cancelPost: PropTypes.func.isRequired,
-    handleToggle: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
 };
 

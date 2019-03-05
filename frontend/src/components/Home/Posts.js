@@ -4,7 +4,6 @@ import {Grid, withStyles} from '@material-ui/core';
 import {connect} from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
 import {postsActions} from '../../actions';
-import {generateUID} from '../../utils/helpers';
 import PostsTable from './PostsTable';
 import NewPost from './NewPost';
 
@@ -70,12 +69,7 @@ class Posts extends Component {
         if (anyError) {
             return this.setState({error});
         }
-        if ('id' in post) {
-            return this.props.updatePost(post).then(() => this.cancelPost());
-        }
-        post.id = generateUID();
-        post.timestamp = Date.now();
-        return this.props.savePost(post).then(() => this.cancelPost());
+        return this.props.updatePost(post).then(() => this.cancelPost());
     };
     
     cancelPost = () => this.setState({
@@ -165,7 +159,6 @@ Posts.propTypes = {
     getCategoryPosts: PropTypes.func.isRequired,
     votePost: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
-    savePost: PropTypes.func.isRequired,
     updatePost: PropTypes.func.isRequired,
 };
 
@@ -176,7 +169,6 @@ const mapDispatchToProps = dispatch => ({
     getCategoryPosts: category => dispatch(postsActions.getCategoryPosts(category)),
     votePost: postData => dispatch(postsActions.votePost(postData)),
     deletePost: postId => dispatch(postsActions.deletePost(postId)),
-    savePost: postData => dispatch(postsActions.savePost(postData)),
     updatePost: postData => dispatch(postsActions.updatePost(postData)),
 });
 

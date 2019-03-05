@@ -1,11 +1,15 @@
-import {AppBar, IconButton, List, ListItem, ListItemText, Toolbar, Typography, withStyles} from '@material-ui/core';
+import {
+    AppBar, IconButton, Button, List, ListItem, ListItemText, Toolbar, Typography, withStyles
+} from '@material-ui/core';
 import {Menu as MenuIcon} from '@material-ui/icons';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import routes from './routes';
-import {getCategories} from './actions';
+import {getCategories, postsActions} from './actions';
 import homeStyle from './styles/homeStyles';
+import {generateUID} from './utils/helpers';
+import NewPost from './components/Home/NewPost';
 
 class MainApp extends React.Component {
     
@@ -13,7 +17,20 @@ class MainApp extends React.Component {
         super(props);
         
         this.state = {
-            showSideBar: true
+            showSideBar: true,
+            open: false,
+            post: {
+                title: '',
+                author: '',
+                body: '',
+                category: '',
+            },
+            error: {
+                title: false,
+                author: false,
+                body: false,
+                category: false,
+            }
         };
     }
     
@@ -25,12 +42,53 @@ class MainApp extends React.Component {
     
     handleNavClick = key => key === '' ? this.props.history.push('/') : this.props.history.push(`/${key}`);
     
+    handleToggle = () => this.setState(prevState => ({open: !prevState.open}));
+    
+    onChange = (e, property) => {
+        const {post, error} = this.state;
+        post[property] = e.target.value;
+        error[property] = false;
+        this.setState({post, error});
+    };
+    
+    submitPost = () => {
+        const {post, error} = this.state;
+        let anyError = false;
+        Object.keys(post).forEach(key => {
+            if (!post[key].toString().trim()) {
+                error[key] = true;
+                anyError = true;
+            }
+        });
+        if (anyError) {
+            return this.setState({error});
+        }
+        post.id = generateUID();
+        post.timestamp = Date.now();
+        return this.props.savePost(post).then(() => this.cancelPost());
+    };
+    
+    cancelPost = () => this.setState({
+        post: {
+            title: '',
+            author: '',
+            body: '',
+            category: '',
+        },
+        error: {
+            title: false,
+            author: false,
+            body: false,
+            category: false,
+        }
+    }, this.handleToggle);
+    
     render() {
     
         const {classes, history} = this.props;
+        const {open, post: localPost, error, showSideBar} = this.state;
         const categories = this.props.categoriesReducer.get('categories');
     
-        const {showSideBar} = this.state;
         const navBarStyling = [classes.sideNav];
         if (showSideBar) {
             navBarStyling.push(classes.sideNavToggle);
@@ -75,6 +133,8 @@ class MainApp extends React.Component {
                         <Typography variant="h6" color="inherit" className={classes.grow}>
                             Readable
                         </Typography>
+                        <Button onClick={() => this.handleNavClick('')}>Home</Button>
+                        <Button onClick={this.handleToggle}>New Post</Button>
                     </Toolbar>
                 </AppBar>
                 <nav className={navBarStyling.join(' ')}>
@@ -91,6 +151,16 @@ class MainApp extends React.Component {
                         {categoriesList}
                     </List>
                 </nav>
+                <NewPost
+                    categories={categories}
+                    open={open}
+                    post={localPost}
+                    error={error}
+                    handleToggle={this.handleToggle}
+                    cancelPost={this.cancelPost}
+                    submitPost={this.submitPost}
+                    onChange={this.onChange}
+                />
                 <div id="main-content">
                     {routes}
                 </div>
@@ -104,12 +174,14 @@ MainApp.propTypes = {
     history: PropTypes.object.isRequired,
     categoriesReducer: PropTypes.object.isRequired,
     getCategories: PropTypes.func.isRequired,
+    savePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({categoriesReducer}) => ({categoriesReducer});
 
 const mapDispatchToProps = dispatch => ({
     getCategories: () => dispatch(getCategories()),
+    savePost: postData => dispatch(postsActions.savePost(postData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyle)(MainApp));

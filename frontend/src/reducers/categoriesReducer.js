@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
         case GET_ALL_CATEGORIES_FAILED:
             return state.merge({
                 categories: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false
             });
         default:

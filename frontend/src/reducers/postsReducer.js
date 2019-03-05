@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
         case GET_ALL_POSTS_FAILED:
             return state.merge({
                 posts: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case SAVE_POST_SUCCESSFULLY:
@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
         case SAVE_POST_FAILED:
             return state.merge({
                 post: {},
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case GET_POST_SUCCESSFULLY:
@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
         case GET_POST_FAILED:
             return state.merge({
                 post: {},
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case VOTE_POST_SUCCESSFULLY:
@@ -73,7 +73,7 @@ export default (state = initialState, action) => {
             });
         case VOTE_POST_FAILED:
             return state.merge({
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case UPDATE_POST_SUCCESSFULLY:
@@ -86,7 +86,7 @@ export default (state = initialState, action) => {
         case UPDATE_POST_FAILED:
             return state.merge({
                 post: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case DELETE_POST_SUCCESSFULLY:
@@ -98,7 +98,7 @@ export default (state = initialState, action) => {
             });
         case DELETE_POST_FAILED:
             return state.merge({
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         default:

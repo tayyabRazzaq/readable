@@ -9,11 +9,13 @@ import {postsActions} from '../../actions';
 class Post extends Component {
     
     componentDidMount() {
-        this.props.getPost(this.props.match.params.id);
+        debugger; //eslint-disable-line
+        this.props.getPost(this.props.match.params.postId);
     }
     
     render() {
         const post = this.props.postsReducer.get('post');
+        debugger; //eslint-disable-line
         return (
             <div>
                 Post

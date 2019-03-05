@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
         case GET_POST_COMMENTS_FAILED:
             return state.merge({
                 comments: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case SAVE_COMMENT_SUCCESSFULLY:
@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
         case SAVE_COMMENT_FAILED:
             return state.merge({
                 comment: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case GET_COMMENT_SUCCESSFULLY:
@@ -56,7 +56,7 @@ export default (state = initialState, action) => {
         case GET_COMMENT_FAILED:
             return state.merge({
                 comment: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case VOTE_COMMENT_SUCCESSFULLY:
@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
         case VOTE_COMMENT_FAILED:
             return state.merge({
                 comment: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case UPDATE_COMMENT_SUCCESSFULLY:
@@ -80,7 +80,7 @@ export default (state = initialState, action) => {
         case UPDATE_COMMENT_FAILED:
             return state.merge({
                 comment: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         case DELETE_COMMENT_SUCCESSFULLY:
@@ -92,7 +92,7 @@ export default (state = initialState, action) => {
         case DELETE_COMMENT_FAILED:
             return state.merge({
                 comment: [],
-                error: action.response.error,
+                error: action.error,
                 statusSuccess: false,
             });
         default:
