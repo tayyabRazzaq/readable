@@ -65,7 +65,6 @@ export default (state = initialState, action) => {
                 statusSuccess: false,
             });
         case VOTE_POST_SUCCESSFULLY:
-            debugger; //eslint-disable-line
             return state.merge({
                 post: action.response.data,
                 posts: state.get('posts').map(post => post.id === action.successData.id ? action.response.data : post),

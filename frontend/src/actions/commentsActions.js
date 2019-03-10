@@ -29,15 +29,16 @@ const getCommentAction = id => dispatch => dispatch(
 );
 
 const voteCommentAction = commentData => dispatch => dispatch(
-    performServerCall(voteComment, commentData, VOTE_COMMENT_SUCCESSFULLY, VOTE_COMMENT_FAILED)
+    performServerCall(voteComment, commentData, VOTE_COMMENT_SUCCESSFULLY, VOTE_COMMENT_FAILED, {id: commentData.id})
 );
 
 const updateCommentAction = commentData => dispatch => dispatch(
-    performServerCall(updateComment, commentData, UPDATE_COMMENT_SUCCESSFULLY, UPDATE_COMMENT_FAILED)
+    performServerCall(updateComment, commentData, UPDATE_COMMENT_SUCCESSFULLY,
+        UPDATE_COMMENT_FAILED, {id: commentData.id})
 );
 
 const deleteCommentAction = id => dispatch => dispatch(
-    performServerCall(deleteComment, id, DELETE_COMMENT_SUCCESSFULLY, DELETE_COMMENT_FAILED)
+    performServerCall(deleteComment, id, DELETE_COMMENT_SUCCESSFULLY, DELETE_COMMENT_FAILED, {id})
 );
 
 export {

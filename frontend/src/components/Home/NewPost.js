@@ -23,7 +23,7 @@ const NewPost = props => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">New Post</DialogTitle>
+                <DialogTitle id="alert-dialog-title">Post</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={4}>
                         <Grid item sm={12}>

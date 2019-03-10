@@ -19,5 +19,12 @@ export default theme => ({
         width: '48px',
         alignItems: 'center',
         alignSelf: 'center'
+    },
+    commentField: {
+        marginBottom: '20px',
+        marginTop: '10px',
+    },
+    newComment: {
+        marginLeft: '10px'
     }
 });
