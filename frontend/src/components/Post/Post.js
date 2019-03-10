@@ -10,6 +10,7 @@ import {
 } from '@material-ui/icons';
 import {withStyles, Grid, IconButton, Button} from '@material-ui/core';
 import {connect} from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
 import PostStyles from '../../styles/postStyles';
 import {postsActions, commentsActions} from '../../actions';
 import {generateUID} from '../../utils/helpers';
@@ -51,7 +52,13 @@ class Post extends Component {
     }
     
     componentDidMount() {
-        this.props.getPost(this.props.match.params.postId);
+        this.props.getPost(this.props.match.params.postId).then(() => {
+            const post = this.props.postsReducer.get('post');
+            const statusSuccess = this.props.postsReducer.get('statusSuccess');
+            if (!statusSuccess || isEmpty(post)) {
+                this.props.history.push('/page-404');
+            }
+        });
     }
     
     votePost = option => this.props.votePost({id: this.props.match.params.postId, option});
@@ -143,6 +150,7 @@ class Post extends Component {
         }
         comment.id = generateUID();
         comment.timestamp = Date.now();
+        comment.parentId = this.props.match.params.postId;
         return this.props.saveComment(comment).then(() => this.cancelComment());
     };
     
@@ -228,6 +236,11 @@ class Post extends Component {
                                     <span>{post.body}</span>
                                 </div>
                                 <div>
+                                    <label>By: </label>
+                                    <span>{post.author}</span>
+                                </div>
+                                <div>
+                                    <label>Date: </label>
                                     <span>{post.timestamp ? new Date(post.timestamp).toDateString() : ''}</span>
                                 </div>
                             </Grid>

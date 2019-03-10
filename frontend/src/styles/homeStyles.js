@@ -13,6 +13,9 @@ export default theme => ({
         backgroundColor: grayColor,
         color: white
     },
+    appBarBtn: {
+        color: white
+    },
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
@@ -41,7 +44,7 @@ export default theme => ({
         }
     },
     topBar: {
-        height: '7vh',
+        minHeight: '7vh',
     },
     sideNavToggle: {
         margin: '0',

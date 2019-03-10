@@ -38,10 +38,12 @@ const Comment = props => {
                         </IconButton>
                     </Grid>
                     <Grid item sm={12}>
-                        Author: {comment.author}
+                        <label>Author: </label>
+                        <span>{comment.author}</span>
                     </Grid>
                     <Grid item sm={12}>
-                        Date: {comment.timestamp ? new Date(comment.timestamp).toDateString() : ''}
+                        <label>Date: </label>
+                        <span>{comment.timestamp ? new Date(comment.timestamp).toDateString() : ''}</span>
                     </Grid>
                 </Grid>
             </Grid>

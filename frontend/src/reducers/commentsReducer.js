@@ -28,22 +28,11 @@ export default (state = initialState, action) => {
                 error: null,
                 statusSuccess: true,
             });
-        case GET_POST_COMMENTS_FAILED:
-            return state.merge({
-                comments: [],
-                error: action.error,
-                statusSuccess: false,
-            });
         case SAVE_COMMENT_SUCCESSFULLY:
             return state.merge({
                 comments: [...state.get('comments'), action.response.data],
                 error: null,
                 statusSuccess: true,
-            });
-        case SAVE_COMMENT_FAILED:
-            return state.merge({
-                error: action.error,
-                statusSuccess: false,
             });
         case GET_COMMENT_SUCCESSFULLY:
             return state.merge({
@@ -51,34 +40,13 @@ export default (state = initialState, action) => {
                 error: null,
                 statusSuccess: true,
             });
-        case GET_COMMENT_FAILED:
-            return state.merge({
-                error: action.error,
-                statusSuccess: false,
-            });
         case VOTE_COMMENT_SUCCESSFULLY:
-            return state.merge({
-                comments: state.get('comments').map(comment =>
-                    comment.id === action.successData.id ? action.response.data : comment),
-                error: null,
-                statusSuccess: true,
-            });
-        case VOTE_COMMENT_FAILED:
-            return state.merge({
-                error: action.error,
-                statusSuccess: false,
-            });
         case UPDATE_COMMENT_SUCCESSFULLY:
             return state.merge({
                 comments: state.get('comments').map(comment =>
                     comment.id === action.successData.id ? action.response.data : comment),
                 error: null,
                 statusSuccess: true,
-            });
-        case UPDATE_COMMENT_FAILED:
-            return state.merge({
-                error: action.error,
-                statusSuccess: false,
             });
         case DELETE_COMMENT_SUCCESSFULLY:
             return state.merge({
@@ -87,6 +55,11 @@ export default (state = initialState, action) => {
                 statusSuccess: true,
             });
         case DELETE_COMMENT_FAILED:
+        case UPDATE_COMMENT_FAILED:
+        case VOTE_COMMENT_FAILED:
+        case GET_POST_COMMENTS_FAILED:
+        case SAVE_COMMENT_FAILED:
+        case GET_COMMENT_FAILED:
             return state.merge({
                 error: action.error,
                 statusSuccess: false,

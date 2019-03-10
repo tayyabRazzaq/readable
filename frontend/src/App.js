@@ -134,8 +134,8 @@ class MainApp extends React.Component {
                         <Typography variant="h6" color="inherit" className={classes.grow}>
                             Readable
                         </Typography>
-                        <Button onClick={() => this.handleNavClick('')}>Home</Button>
-                        <Button onClick={this.handleToggle}>New Post</Button>
+                        <Button onClick={() => this.handleNavClick('')} className={classes.appBarBtn}>Home</Button>
+                        <Button onClick={this.handleToggle} className={classes.appBarBtn}>New Post</Button>
                     </Toolbar>
                 </AppBar>
                 <nav className={navBarStyling.join(' ')}>

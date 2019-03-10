@@ -17,6 +17,7 @@ const PostsTable = props => {
     const rows = [
         {id: 'title', label: 'Title', order: true},
         {id: 'author', label: 'Author', order: true},
+        {id: 'timestamp', label: 'Date', order: true},
         {id: 'commentCount', label: 'No. of Comments', order: true},
         {id: 'voteScore', label: 'Current Score', order: true},
         {id: 'vote', label: 'Vote', order: false},
@@ -29,6 +30,7 @@ const PostsTable = props => {
         <TableRow key={post.id}>
             <TableCell>{post.title}</TableCell>
             <TableCell align="center">{post.author}</TableCell>
+            <TableCell align="center">{new Date(post.timestamp).toDateString()}</TableCell>
             <TableCell align="center">{post.commentCount}</TableCell>
             <TableCell align="center">{post.voteScore}</TableCell>
             <TableCell align="center">
