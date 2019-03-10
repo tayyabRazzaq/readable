@@ -9,7 +9,7 @@ export default createMuiTheme({
     },
     root: {
         flexGrow: 1,
-        fontWeight: '500',
+        // fontWeight: '500',
         typography: {
             fontFamily: fontMontserrat,
         },

@@ -43,7 +43,7 @@ const deleteCommentAction = id => dispatch => dispatch(
 export {
     getPostCommentsAction as getPostComments,
     saveCommentAction as saveComment,
-    getCommentAction as getCommentComment,
+    getCommentAction as getComment,
     voteCommentAction as voteComment,
     updateCommentAction as updateComment,
     deleteCommentAction as deleteComment,

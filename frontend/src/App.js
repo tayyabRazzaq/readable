@@ -120,6 +120,7 @@ class MainApp extends React.Component {
             <div className={classes.root}>
                 <AppBar
                     position="static" color="default"
+                    className={classes.topBar}
                     classes={{
                         colorDefault: classes.appBar
                     }}>

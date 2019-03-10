@@ -29,7 +29,7 @@ export default theme => ({
         bottom: '0',
         zIndex: 99,
         overflowY: 'auto',
-        height: '100vh',
+        height: '93vh',
         margin: '0 0 0 -245px',
         width: '245px',
         background: grayColor,
@@ -39,6 +39,9 @@ export default theme => ({
         [theme.breakpoints.down('md')]: {
             boxShadow: 'none !important',
         }
+    },
+    topBar: {
+        height: '7vh',
     },
     sideNavToggle: {
         margin: '0',

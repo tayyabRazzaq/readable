@@ -6,4 +6,18 @@ export default theme => ({
         color: theme.palette.text.secondary,
     },
     grow: {...theme.grow},
+    verticalGrow: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textAlign: 'center'
+    },
+    voteIcon: {
+        alignSelf: 'center'
+    },
+    voteIcoBtn: {
+        width: '48px',
+        alignItems: 'center',
+        alignSelf: 'center'
+    }
 });
