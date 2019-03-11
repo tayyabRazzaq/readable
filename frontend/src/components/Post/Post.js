@@ -52,14 +52,16 @@ class Post extends Component {
     }
     
     componentDidMount() {
-        this.props.getPost(this.props.match.params.postId).then(() => {
-            const post = this.props.postsReducer.get('post');
-            const statusSuccess = this.props.postsReducer.get('statusSuccess');
-            if (!statusSuccess || isEmpty(post)) {
-                this.props.history.push('/page-404');
-            }
-        });
+        this.getPost(this.props.match.params.postId);
     }
+    
+    getPost = postId => this.props.getPost(postId).then(() => {
+        const post = this.props.postsReducer.get('post');
+        const statusSuccess = this.props.postsReducer.get('statusSuccess');
+        if (!statusSuccess || isEmpty(post)) {
+            this.props.history.push('/page-404');
+        }
+    });
     
     votePost = option => this.props.votePost({id: this.props.match.params.postId, option});
     
@@ -151,7 +153,10 @@ class Post extends Component {
         comment.id = generateUID();
         comment.timestamp = Date.now();
         comment.parentId = this.props.match.params.postId;
-        return this.props.saveComment(comment).then(() => this.cancelComment());
+        return this.props.saveComment(comment).then(() => {
+            this.getPost(this.props.match.params.postId);
+            this.cancelComment();
+        });
     };
     
     cancelComment = () => this.setState({
@@ -167,7 +172,7 @@ class Post extends Component {
     
     voteComment = (id, option) => this.props.voteComment({id, option});
     
-    deleteComment = id => this.props.deleteComment(id);
+    deleteComment = id => this.props.deleteComment(id).then(() => this.getPost(this.props.match.params.postId));
     
     render() {
         const post = this.props.postsReducer.get('post');
