@@ -1,35 +1,35 @@
-import API from '../common';
+import {API} from '../common';
 
-/***************************** Categories ************************************/
+/***************************************************** Categories *****************************************************/
 
-export const getCategories = () => API.get('categories');
+export const getCategoriesHelper = () => API.get('categories');
 
-/***************************** Posts ************************************/
+/******************************************************* Posts ********************************************************/
 
-export const getCategoryPosts = category => API.get(`${category}/posts`);
+export const getCategoryPostsHelper = category => API.get(`${category}/posts`);
 
-export const getAllPosts = () => API.get('posts');
+export const getAllPostsHelper = () => API.get('posts');
 
-export const savePost = postData => API.post('posts', postData);
+export const savePostHelper = postData => API.post('posts', postData);
 
-export const getPost = id => API.get(`posts/${id}`);
+export const getPostHelper = id => API.get(`posts/${id}`);
 
-export const votePost = postData => API.post(`posts/${postData.id}`, postData);
+export const votePostHelper = postData => API.post(`posts/${postData.id}`, postData);
 
-export const updatePost = postData => API.put(`posts/${postData.id}`, postData);
+export const updatePostHelper = postData => API.put(`posts/${postData.id}`, postData);
 
-export const deletePost = id => API.delete(`posts/${id}`);
+export const deletePostHelper = id => API.delete(`posts/${id}`);
 
-/***************************** Comments ************************************/
+/****************************************************** Comments ******************************************************/
 
-export const getPostComments = id => API.get(`posts/${id}/comments`);
+export const getPostCommentsHelper = id => API.get(`posts/${id}/comments`);
 
-export const saveComment = postData => API.post('comments', postData);
+export const saveCommentHelper = postData => API.post('comments', postData);
 
-export const getComment = id => API.get(`comments/${id}`);
+export const getCommentHelper = id => API.get(`comments/${id}`);
 
-export const voteComment = postData => API.post(`comments/${postData.id}`, postData);
+export const voteCommentHelper = postData => API.post(`comments/${postData.id}`, postData);
 
-export const updateComment = postData => API.put(`comments/${postData.id}`, postData);
+export const updateCommentHelper = postData => API.put(`comments/${postData.id}`, postData);
 
-export const deleteComment = id => API.delete(`comments/${id}`);
+export const deleteCommentHelper = id => API.delete(`comments/${id}`);

@@ -10,6 +10,7 @@ import {getCategories, postsActions} from './actions';
 import homeStyle from './styles/homeStyles';
 import {generateUID} from './utils/helpers';
 import NewPost from './components/Home/NewPost';
+import {EMPTY_POST, DEFAULT_POST_ERROR} from './common';
 
 class MainApp extends React.Component {
     
@@ -19,18 +20,8 @@ class MainApp extends React.Component {
         this.state = {
             showSideBar: true,
             open: false,
-            post: {
-                title: '',
-                author: '',
-                body: '',
-                category: '',
-            },
-            error: {
-                title: false,
-                author: false,
-                body: false,
-                category: false,
-            }
+            post: {...EMPTY_POST},
+            error: {...DEFAULT_POST_ERROR}
         };
     }
     
@@ -68,20 +59,7 @@ class MainApp extends React.Component {
         return this.props.savePost(post).then(() => this.cancelPost());
     };
     
-    cancelPost = () => this.setState({
-        post: {
-            title: '',
-            author: '',
-            body: '',
-            category: '',
-        },
-        error: {
-            title: false,
-            author: false,
-            body: false,
-            category: false,
-        }
-    }, this.handleToggle);
+    cancelPost = () => this.setState({post: {...EMPTY_POST}, error: {...DEFAULT_POST_ERROR}}, this.handleToggle);
     
     render() {
     

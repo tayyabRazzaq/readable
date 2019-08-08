@@ -1,14 +1,15 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {
-    DeleteForeverOutlined, EditOutlined, KeyboardArrowDownRounded, KeyboardArrowUpRounded} from '@material-ui/icons';
-import {withStyles, Grid, IconButton} from '@material-ui/core';
+    DeleteForeverOutlined, EditOutlined, KeyboardArrowDownRounded, KeyboardArrowUpRounded,
+} from '@material-ui/icons';
+import { withStyles, Grid, IconButton } from '@material-ui/core';
 import PostStyles from '../../styles/postStyles';
 
 const Comment = props => {
-    
-    const {comment, classes} = props;
-    
+
+    const { comment, classes } = props;
+
     return (
         <Grid container>
             <Grid item sm={1}>

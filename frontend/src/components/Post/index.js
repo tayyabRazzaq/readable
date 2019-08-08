@@ -1,5 +1,1 @@
-import Post from './Post';
-
-export {
-    Post
-};
+export {default as Post}from './Post';

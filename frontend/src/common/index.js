@@ -1,8 +1,10 @@
-import {apiGet, apiPost, apiPut, apiDelete} from './serverCalls';
+import { apiGet, apiPost, apiPut, apiDelete } from './serverCalls';
 
-export default {
+export * from './constants';
+
+export const API = {
     get: apiGet,
     post: apiPost,
     put: apiPut,
-    delete: apiDelete
+    delete: apiDelete,
 };

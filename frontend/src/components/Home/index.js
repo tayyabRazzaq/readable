@@ -1,5 +1,1 @@
-import Posts from './Posts';
-
-export {
-    Posts
-};
+export { default as Posts } from './Posts';

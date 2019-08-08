@@ -1,64 +1,56 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import {Grid, withStyles} from '@material-ui/core';
-import {connect} from 'react-redux';
+import { Grid, withStyles } from '@material-ui/core';
+import { connect } from 'react-redux';
 import homeStyle from '../../styles/homeStyles';
-import {postsActions} from '../../actions';
+import { postsActions } from '../../actions';
 import PostsTable from './PostsTable';
 import NewPost from './NewPost';
+import { DEFAULT_POST_ERROR, EMPTY_POST } from '../../common';
 
 
 class Posts extends Component {
-    
+
     constructor(props) {
         super(props);
-        
+
         this.state = {
             order: 'asc',
             orderBy: '',
             open: false,
-            post: {
-                title: '',
-                author: '',
-                body: '',
-                category: '',
-            },
-            error: {
-                title: false,
-                author: false,
-                body: false,
-                category: false,
-            }
+            post: { ...EMPTY_POST },
+            error: { ...DEFAULT_POST_ERROR },
         };
     }
-    
+
     componentDidMount() {
-        const {category} = this.props.match.params;
+        const { category } = this.props.match.params;
         return category ? this.props.getCategoryPosts(category) : this.props.getAllPosts();
     }
-    
+
     // eslint-disable-next-line
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {category} = this.props.match.params;
-        const {category: prevCategory} = prevProps.match.params;
+        const { category } = this.props.match.params;
+        const { category: prevCategory } = prevProps.match.params;
         if (category && (!prevCategory || category !== prevCategory)) {
             this.props.getCategoryPosts(category);
-        } else if (!category && prevCategory) {
+        }
+        else if (!category && prevCategory) {
             this.props.getAllPosts();
         }
     }
-    
-    handleToggle = () => this.setState(prevState => ({open: !prevState.open}));
-    
+
+    handleToggle = () => this.setState(prevState => ({ open: !prevState.open }));
+
     onChange = (e, property) => {
-        const {post, error} = this.state;
+        const { post, error } = this.state;
         post[property] = e.target.value;
         error[property] = false;
-        this.setState({post, error});
+        this.setState({ post, error });
     };
-    
+
     submitPost = () => {
-        const {post, error} = this.state;
+        const { post, error } = this.state;
         let anyError = false;
         Object.keys(post).forEach(key => {
             if (!post[key].toString().trim()) {
@@ -67,57 +59,44 @@ class Posts extends Component {
             }
         });
         if (anyError) {
-            return this.setState({error});
+            return this.setState({ error });
         }
         return this.props.updatePost(post).then(() => this.cancelPost());
     };
-    
-    cancelPost = () => this.setState({
-        post: {
-            title: '',
-            author: '',
-            body: '',
-            category: '',
-        },
-        error: {
-            title: false,
-            author: false,
-            body: false,
-            category: false,
-        }
-    }, this.handleToggle);
-    
+
+    cancelPost = () => this.setState({ post: { ...EMPTY_POST }, error: { ...DEFAULT_POST_ERROR } }, this.handleToggle);
+
     handleRequestSort = (event, property) => {
         const localOrderBy = property;
         let localOrder = 'desc';
-        const {orderBy, order} = this.state;
+        const { orderBy, order } = this.state;
         if (orderBy === property && order === 'desc') {
             localOrder = 'asc';
         }
-        this.setState({order: localOrder, orderBy: localOrderBy});
+        this.setState({ order: localOrder, orderBy: localOrderBy });
     };
-    
-    votePost = (id, option) => this.props.votePost({id, option});
-    
+
+    votePost = (id, option) => this.props.votePost({ id, option });
+
     deletePost = postId => this.props.deletePost(postId);
-    
+
     viewPost = (postId, category) => this.props.history.push(`/${category}/${postId}`);
-    
+
     editPost = postId => {
         const posts = this.props.postsReducer.get('posts');
         const post = posts.find(postData => postData.id === postId);
         if (post) {
-            this.setState({post: {...post}}, this.handleToggle);
+            this.setState({ post: { ...post } }, this.handleToggle);
         }
     };
-    
+
     render() {
-        
-        const {order, orderBy, open, post: localPost, error} = this.state;
-        
+
+        const { order, orderBy, open, post: localPost, error } = this.state;
+
         const posts = this.props.postsReducer.get('posts');
         const categories = this.props.categoriesReducer.get('categories');
-        
+
         return (
             <div>
                 <Grid container direction="row-reverse" justify="flex-start" alignItems="center">
@@ -162,7 +141,7 @@ Posts.propTypes = {
     updatePost: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({postsReducer, categoriesReducer}) => ({postsReducer, categoriesReducer});
+const mapStateToProps = ({ postsReducer, categoriesReducer }) => ({ postsReducer, categoriesReducer });
 
 const mapDispatchToProps = dispatch => ({
     getAllPosts: () => dispatch(postsActions.getAllPosts()),

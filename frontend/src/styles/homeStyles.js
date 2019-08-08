@@ -1,20 +1,20 @@
-import {grayColor, white, transition} from './style';
+import { grayColor, white, transition } from './style';
 
 
 export default theme => ({
-    root: {...theme.root},
+    root: { ...theme.root },
     paper: {
         padding: theme.spacing.unit * 2,
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
-    grow: {...theme.grow},
+    grow: { ...theme.grow },
     appBar: {
         backgroundColor: grayColor,
-        color: white
+        color: white,
     },
     appBarBtn: {
-        color: white
+        color: white,
     },
     menuButton: {
         marginLeft: -12,
@@ -41,7 +41,7 @@ export default theme => ({
         },
         [theme.breakpoints.down('md')]: {
             boxShadow: 'none !important',
-        }
+        },
     },
     topBar: {
         minHeight: '7vh',
@@ -52,7 +52,7 @@ export default theme => ({
     },
     navList: {
         padding: '90px 0 20px',
-        color: white
+        color: white,
     },
     itemGroup: {
         opacity: '0.6',
@@ -61,15 +61,15 @@ export default theme => ({
         position: 'relative',
     },
     activeItem: {
-        opacity: '1'
+        opacity: '1',
     },
     addPost: {
         marginTop: '10px',
         marginBottom: '20px',
-        float: 'right'
+        float: 'right',
     },
     postField: {
         marginBottom: '20px',
         marginTop: '10px',
-    }
+    },
 });

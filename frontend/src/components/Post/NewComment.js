@@ -1,15 +1,15 @@
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import {
-    Dialog, DialogTitle, DialogContent, DialogActions, Slide, Button, TextField, Grid, withStyles
+    Dialog, DialogTitle, DialogContent, DialogActions, Slide, Button, TextField, Grid, withStyles,
 } from '@material-ui/core';
 import postStyles from '../../styles/postStyles';
 
 const Transition = props => <Slide direction="up" {...props} />;
 
 const NewComment = props => {
-    const {classes, open, comment, error} = props;
-    
+    const { classes, open, comment, error } = props;
+
     return (
         <div>
             <Dialog

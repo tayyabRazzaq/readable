@@ -1,9 +1,9 @@
-/***************************** Categories ************************************/
+/***************************************************** Categories *****************************************************/
 
 export const GET_ALL_CATEGORIES_SUCCESSFULLY = 'GET_ALL_CATEGORIES_SUCCESSFULLY';
 export const GET_ALL_CATEGORIES_FAILED = 'GET_ALL_CATEGORIES_FAILED';
 
-/***************************** Posts ************************************/
+/******************************************************* Posts ********************************************************/
 
 export const GET_CATEGORY_POSTS_SUCCESSFULLY = 'GET_CATEGORY_POSTS_SUCCESSFULLY';
 export const GET_CATEGORY_POSTS_FAILED = 'GET_CATEGORY_POSTS_FAILED';
@@ -20,7 +20,7 @@ export const UPDATE_POST_FAILED = 'UPDATE_POST_FAILED';
 export const DELETE_POST_SUCCESSFULLY = 'DELETE_POST_SUCCESSFULLY';
 export const DELETE_POST_FAILED = 'DELETE_POST_FAILED';
 
-/***************************** Comments ************************************/
+/****************************************************** Comments ******************************************************/
 
 export const GET_POST_COMMENTS_SUCCESSFULLY = 'GET_POST_COMMENTS_SUCCESSFULLY';
 export const GET_POST_COMMENTS_FAILED = 'GET_POST_COMMENTS_FAILED';

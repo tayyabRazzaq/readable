@@ -1,31 +1,23 @@
-import {IconButton, Table, TableBody, TableCell, TableRow, withStyles} from '@material-ui/core';
+import { IconButton, Table, TableBody, TableCell, TableRow, withStyles } from '@material-ui/core';
 import {
     DeleteForeverOutlined,
     EditOutlined,
     RemoveRedEyeOutlined,
     ThumbDownOutlined,
-    ThumbUpOutlined
+    ThumbUpOutlined,
 } from '@material-ui/icons';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import homeStyle from '../../styles/homeStyles';
-import {getSorting, stableSort} from '../../utils/helpers';
+import { getSorting, stableSort } from '../../utils/helpers';
 import PostTableHeader from './PostTableHeader';
+import { POST_TABLE_DATA } from '../../common';
 
 const PostsTable = props => {
-    const {order, orderBy, posts} = props;
-    const rows = [
-        {id: 'title', label: 'Title', order: true},
-        {id: 'author', label: 'Author', order: true},
-        {id: 'timestamp', label: 'Date', order: true},
-        {id: 'commentCount', label: 'No. of Comments', order: true},
-        {id: 'voteScore', label: 'Current Score', order: true},
-        {id: 'vote', label: 'Vote', order: false},
-        {id: 'action', label: 'Actions', order: false},
-    ];
-    
+    const { order, orderBy, posts } = props;
+
     const sortedPosts = stableSort(posts, getSorting(order, orderBy));
-    
+
     const postTable = sortedPosts.map(post => (
         <TableRow key={post.id}>
             <TableCell>{post.title}</TableCell>
@@ -57,7 +49,7 @@ const PostsTable = props => {
     return (
         <Table>
             <PostTableHeader
-                rows={rows}
+                rows={[...POST_TABLE_DATA]}
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={props.handleRequestSort}

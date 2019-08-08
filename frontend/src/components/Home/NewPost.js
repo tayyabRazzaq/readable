@@ -2,18 +2,18 @@ import * as PropTypes from 'prop-types';
 import React from 'react';
 import {
     Dialog, DialogTitle, DialogContent, DialogActions, Slide, Button, TextField,
-    Grid, Select, MenuItem, FormControl, InputLabel, withStyles
+    Grid, Select, MenuItem, FormControl, InputLabel, withStyles,
 } from '@material-ui/core';
 import homeStyles from '../../styles/homeStyles';
 
 const Transition = props => <Slide direction="up" {...props} />;
 
 const NewPost = props => {
-    const {classes, categories, open, post, error} = props;
+    const { classes, categories, open, post, error } = props;
     const categoriesOptions = categories.map(key => (
         <MenuItem key={key.path} value={key.path}>{key.name}</MenuItem>
     ));
-    
+
     return (
         <div>
             <Dialog

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as PropTypes from 'prop-types';
 import {
     UnfoldLessRounded,
@@ -6,55 +6,40 @@ import {
     KeyboardArrowDownRounded,
     KeyboardArrowUpRounded,
     EditOutlined,
-    DeleteForeverOutlined
+    DeleteForeverOutlined,
 } from '@material-ui/icons';
-import {withStyles, Grid, IconButton, Button} from '@material-ui/core';
-import {connect} from 'react-redux';
+import { withStyles, Grid, IconButton, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import PostStyles from '../../styles/postStyles';
-import {postsActions, commentsActions} from '../../actions';
-import {generateUID} from '../../utils/helpers';
+import { postsActions, commentsActions } from '../../actions';
+import { generateUID } from '../../utils/helpers';
 import Comment from './Comment';
 import NewComment from './NewComment';
 import NewPost from '../Home/NewPost';
+import { DEFAULT_POST_ERROR, EMPTY_POST, EMPTY_COMMENT, DEFAULT_COMMENT_ERROR } from '../../common';
 
 
 class Post extends Component {
-    
+
     constructor(props) {
         super(props);
-        
+
         this.state = {
             editablePost: false,
-            post: {
-                title: '',
-                author: '',
-                body: '',
-                category: '',
-            },
-            errorPost: {
-                title: false,
-                author: false,
-                body: false,
-                category: false,
-            },
             showComments: false,
             editableComment: false,
-            comment: {
-                author: '',
-                body: '',
-            },
-            errorComment: {
-                author: false,
-                body: false,
-            }
+            post: { ...EMPTY_POST },
+            errorPost: { ...DEFAULT_POST_ERROR },
+            comment: { ...EMPTY_COMMENT },
+            errorComment: { ...DEFAULT_COMMENT_ERROR },
         };
     }
-    
+
     componentDidMount() {
         this.getPost(this.props.match.params.postId);
     }
-    
+
     getPost = postId => this.props.getPost(postId).then(() => {
         const post = this.props.postsReducer.get('post');
         const statusSuccess = this.props.postsReducer.get('statusSuccess');
@@ -62,27 +47,27 @@ class Post extends Component {
             this.props.history.push('/page-404');
         }
     });
-    
-    votePost = option => this.props.votePost({id: this.props.match.params.postId, option});
-    
-    handlePostToggle = () => this.setState(prevState => ({editablePost: !prevState.editablePost}));
-    
+
+    votePost = option => this.props.votePost({ id: this.props.match.params.postId, option });
+
+    handlePostToggle = () => this.setState(prevState => ({ editablePost: !prevState.editablePost }));
+
     onPostChange = (e, property) => {
-        const {post, errorPost} = this.state;
+        const { post, errorPost } = this.state;
         post[property] = e.target.value;
         errorPost[property] = false;
-        this.setState({post, errorPost});
+        this.setState({ post, errorPost });
     };
-    
+
     editPost = () => {
         const post = this.props.postsReducer.get('post');
         if (post) {
-            this.setState({post: {...post}}, this.handlePostToggle);
+            this.setState({ post: { ...post } }, this.handlePostToggle);
         }
     };
-    
+
     submitPost = () => {
-        const {post, errorPost} = this.state;
+        const { post, errorPost } = this.state;
         let anyError = false;
         Object.keys(post).forEach(key => {
             if (!post[key].toString().trim()) {
@@ -91,52 +76,42 @@ class Post extends Component {
             }
         });
         if (anyError) {
-            return this.setState({errorPost});
+            return this.setState({ errorPost });
         }
         return this.props.updatePost(post).then(() => this.cancelPost());
     };
-    
+
     cancelPost = () => this.setState({
-        post: {
-            title: '',
-            author: '',
-            body: '',
-            category: '',
-        },
-        errorPost: {
-            title: false,
-            author: false,
-            body: false,
-            category: false,
-        },
+        post: { ...EMPTY_POST },
+        errorPost: { ...DEFAULT_POST_ERROR },
     }, this.handlePostToggle);
-    
+
     deletePost = () => this.props.deletePost(this.props.match.params.postId).then(() => this.props.history.push('/'));
-    
-    onShowComments = () => this.setState({showComments: true},
+
+    onShowComments = () => this.setState({ showComments: true },
         () => this.props.getPostComments(this.props.match.params.postId));
-    
-    onHideComments = () => this.setState({showComments: false});
-    
-    handleCommentToggle = () => this.setState(prevState => ({editableComment: !prevState.editableComment}));
-    
+
+    onHideComments = () => this.setState({ showComments: false });
+
+    handleCommentToggle = () => this.setState(prevState => ({ editableComment: !prevState.editableComment }));
+
     onCommentChange = (e, property) => {
-        const {comment, errorComment} = this.state;
+        const { comment, errorComment } = this.state;
         comment[property] = e.target.value;
         errorComment[property] = false;
-        this.setState({comment, errorComment});
+        this.setState({ comment, errorComment });
     };
-    
+
     editComment = commentId => {
         const comments = this.props.commentsReducer.get('comments');
         const comment = comments.find(commentData => commentData.id === commentId);
         if (comment) {
-            this.setState({comment: {...comment}}, this.handleCommentToggle);
+            this.setState({ comment: { ...comment } }, this.handleCommentToggle);
         }
     };
-    
+
     submitComment = () => {
-        const {comment, errorComment} = this.state;
+        const { comment, errorComment } = this.state;
         let anyError = false;
         Object.keys(comment).forEach(key => {
             if (!comment[key].toString().trim()) {
@@ -145,7 +120,7 @@ class Post extends Component {
             }
         });
         if (anyError) {
-            return this.setState({errorComment});
+            return this.setState({ errorComment });
         }
         if ('id' in comment) {
             return this.props.updateComment(comment).then(() => this.cancelComment());
@@ -158,40 +133,38 @@ class Post extends Component {
             this.cancelComment();
         });
     };
-    
+
     cancelComment = () => this.setState({
-        comment: {
-            author: '',
-            body: '',
-        },
-        errorComment: {
-            author: false,
-            body: false,
-        }
+        comment: { ...EMPTY_COMMENT },
+        errorComment: { ...DEFAULT_COMMENT_ERROR },
     }, this.handleCommentToggle);
-    
-    voteComment = (id, option) => this.props.voteComment({id, option});
-    
+
+    voteComment = (id, option) => this.props.voteComment({ id, option });
+
     deleteComment = id => this.props.deleteComment(id).then(() => this.getPost(this.props.match.params.postId));
-    
+
+    renderComments = comments => comments.map(comment => (
+        <Comment
+            key={comment.id}
+            comment={comment}
+            voteComment={this.voteComment}
+            editComment={this.editComment}
+            deleteComment={this.deleteComment}
+        />
+    ));
+
     render() {
         const post = this.props.postsReducer.get('post');
         const comments = this.props.commentsReducer.get('comments');
         const categories = this.props.categoriesReducer.get('categories');
-        const commentsList = comments.map(comment => (
-            <Comment
-                key={comment.id}
-                comment={comment}
-                voteComment={this.voteComment}
-                editComment={this.editComment}
-                deleteComment={this.deleteComment}
-            />
-        ));
-        const {classes} = this.props;
+        const { classes } = this.props;
         const {
             showComments, comment, errorComment, editableComment,
-            editablePost, post: localPost, errorPost
+            editablePost, post: localPost, errorPost,
         } = this.state;
+
+        const commentsList = this.renderComments(comments);
+
         return (
             <div>
                 <NewPost
@@ -301,8 +274,8 @@ Post.propTypes = {
     deleteComment: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({postsReducer, commentsReducer, categoriesReducer}) =>
-    ({postsReducer, commentsReducer, categoriesReducer});
+const mapStateToProps = ({ postsReducer, commentsReducer, categoriesReducer }) =>
+    ({ postsReducer, commentsReducer, categoriesReducer });
 
 const mapDispatchToProps = dispatch => ({
     getPost: id => dispatch(postsActions.getPost(id)),
