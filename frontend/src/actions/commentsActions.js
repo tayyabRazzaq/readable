@@ -7,45 +7,37 @@ import {
     DELETE_COMMENT_SUCCESSFULLY, DELETE_COMMENT_FAILED
 } from '../common/actionTypes';
 import {
-    getPostComments,
-    saveComment,
-    getComment,
-    voteComment,
-    updateComment,
-    deleteComment
+    getPostCommentsHelper,
+    saveCommentHelper,
+    getCommentHelper,
+    voteCommentHelper,
+    updateCommentHelper,
+    deleteCommentHelper
 } from '../utils/_DATA';
 import performServerCall from '../utils/actionHandler';
 
-const getPostCommentsAction = id => dispatch => dispatch(
-    performServerCall(getPostComments, id, GET_POST_COMMENTS_SUCCESSFULLY, GET_POST_COMMENTS_FAILED)
+export const getPostComments = id => dispatch => dispatch(
+    performServerCall(getPostCommentsHelper, id, GET_POST_COMMENTS_SUCCESSFULLY, GET_POST_COMMENTS_FAILED)
 );
 
-const saveCommentAction = commentData => dispatch => dispatch(
-    performServerCall(saveComment, commentData, SAVE_COMMENT_SUCCESSFULLY, SAVE_COMMENT_FAILED)
+export const saveComment = commentData => dispatch => dispatch(
+    performServerCall(saveCommentHelper, commentData, SAVE_COMMENT_SUCCESSFULLY, SAVE_COMMENT_FAILED)
 );
 
-const getCommentAction = id => dispatch => dispatch(
-    performServerCall(getComment, id, GET_COMMENT_SUCCESSFULLY, GET_COMMENT_FAILED)
+export const getComment = id => dispatch => dispatch(
+    performServerCall(getCommentHelper, id, GET_COMMENT_SUCCESSFULLY, GET_COMMENT_FAILED)
 );
 
-const voteCommentAction = commentData => dispatch => dispatch(
-    performServerCall(voteComment, commentData, VOTE_COMMENT_SUCCESSFULLY, VOTE_COMMENT_FAILED, {id: commentData.id})
+export const voteComment = commentData => dispatch => dispatch(
+    performServerCall(voteCommentHelper, commentData,
+        VOTE_COMMENT_SUCCESSFULLY, VOTE_COMMENT_FAILED, {id: commentData.id})
 );
 
-const updateCommentAction = commentData => dispatch => dispatch(
-    performServerCall(updateComment, commentData, UPDATE_COMMENT_SUCCESSFULLY,
+export const updateComment = commentData => dispatch => dispatch(
+    performServerCall(updateCommentHelper, commentData, UPDATE_COMMENT_SUCCESSFULLY,
         UPDATE_COMMENT_FAILED, {id: commentData.id})
 );
 
-const deleteCommentAction = id => dispatch => dispatch(
-    performServerCall(deleteComment, id, DELETE_COMMENT_SUCCESSFULLY, DELETE_COMMENT_FAILED, {id})
+export const deleteComment = id => dispatch => dispatch(
+    performServerCall(deleteCommentHelper, id, DELETE_COMMENT_SUCCESSFULLY, DELETE_COMMENT_FAILED, {id})
 );
-
-export {
-    getPostCommentsAction as getPostComments,
-    saveCommentAction as saveComment,
-    getCommentAction as getComment,
-    voteCommentAction as voteComment,
-    updateCommentAction as updateComment,
-    deleteCommentAction as deleteComment,
-};
