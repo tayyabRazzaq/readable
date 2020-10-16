@@ -1,11 +1,17 @@
 import {
-    GET_POST_COMMENTS_SUCCESSFULLY, GET_POST_COMMENTS_FAILED,
-    SAVE_COMMENT_SUCCESSFULLY, SAVE_COMMENT_FAILED,
-    GET_COMMENT_SUCCESSFULLY, GET_COMMENT_FAILED,
-    VOTE_COMMENT_SUCCESSFULLY, VOTE_COMMENT_FAILED,
-    UPDATE_COMMENT_SUCCESSFULLY, UPDATE_COMMENT_FAILED,
-    DELETE_COMMENT_SUCCESSFULLY, DELETE_COMMENT_FAILED,
-} from '../common/actionTypes';
+    GET_POST_COMMENTS_SUCCESSFULLY,
+    GET_POST_COMMENTS_FAILED,
+    SAVE_COMMENT_SUCCESSFULLY,
+    SAVE_COMMENT_FAILED,
+    GET_COMMENT_SUCCESSFULLY,
+    GET_COMMENT_FAILED,
+    VOTE_COMMENT_SUCCESSFULLY,
+    VOTE_COMMENT_FAILED,
+    UPDATE_COMMENT_SUCCESSFULLY,
+    UPDATE_COMMENT_FAILED,
+    DELETE_COMMENT_SUCCESSFULLY,
+    DELETE_COMMENT_FAILED,
+} from '../common';
 import {
     getPostCommentsHelper,
     saveCommentHelper,
@@ -13,8 +19,8 @@ import {
     voteCommentHelper,
     updateCommentHelper,
     deleteCommentHelper,
-} from '../utils/_DATA';
-import performServerCall from '../utils/actionHandler';
+    performServerCall
+} from '../utils';
 
 export const getPostComments = id => dispatch => dispatch(
     performServerCall(getPostCommentsHelper, id, GET_POST_COMMENTS_SUCCESSFULLY, GET_POST_COMMENTS_FAILED),

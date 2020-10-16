@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 import {
     GET_CATEGORY_POSTS_SUCCESSFULLY,
     GET_CATEGORY_POSTS_FAILED,
@@ -14,7 +14,7 @@ import {
     UPDATE_POST_FAILED,
     DELETE_POST_SUCCESSFULLY,
     DELETE_POST_FAILED
-} from '../common/actionTypes';
+} from '../common';
 
 const initialState = new Map({
     posts: [],

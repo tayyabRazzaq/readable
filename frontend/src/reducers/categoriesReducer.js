@@ -1,8 +1,8 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 import {
     GET_ALL_CATEGORIES_SUCCESSFULLY,
     GET_ALL_CATEGORIES_FAILED,
-} from '../common/actionTypes';
+} from '../common';
 
 const initialState = new Map({
     categories: [],
