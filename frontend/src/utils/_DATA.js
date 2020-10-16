@@ -1,10 +1,10 @@
 import {API} from '../common';
 
-/***************************************************** Categories *****************************************************/
+/* =================================================== Categories =================================================== */
 
 export const getCategoriesHelper = () => API.get('categories');
 
-/******************************************************* Posts ********************************************************/
+/* ===================================================== Posts ====================================================== */
 
 export const getCategoryPostsHelper = category => API.get(`${category}/posts`);
 
@@ -20,7 +20,7 @@ export const updatePostHelper = postData => API.put(`posts/${postData.id}`, post
 
 export const deletePostHelper = id => API.delete(`posts/${id}`);
 
-/****************************************************** Comments ******************************************************/
+/* ==================================================== Comments ==================================================== */
 
 export const getPostCommentsHelper = id => API.get(`posts/${id}/comments`);
 

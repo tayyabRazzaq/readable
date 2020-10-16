@@ -6,51 +6,46 @@ import {
 import { withStyles, Grid, IconButton } from '@material-ui/core';
 import PostStyles from '../../styles/postStyles';
 
-const Comment = props => {
-
-    const { comment, classes } = props;
-
-    return (
-        <Grid container>
-            <Grid item sm={1}>
-                <div className={classes.verticalGrow}>
-                    <IconButton
-                        onClick={() => props.voteComment(
-                            comment.id, 'upVote')} className={classes.voteIcoBtn}>
-                        <KeyboardArrowUpRounded className={classes.voteIcon}/>
+const Comment = ({ comment, classes, voteComment, editComment, deleteComment }) => (
+    <Grid container>
+        <Grid item sm={1}>
+            <div className={classes.verticalGrow}>
+                <IconButton
+                    onClick={() => voteComment(
+                        comment.id, 'upVote')} className={classes.voteIcoBtn}>
+                    <KeyboardArrowUpRounded className={classes.voteIcon}/>
+                </IconButton>
+                <span>{comment.voteScore}</span>
+                <IconButton
+                    onClick={() => voteComment(
+                        comment.id, 'downVote')} className={classes.voteIcoBtn}>
+                    <KeyboardArrowDownRounded className={classes.voteIcon}/>
+                </IconButton>
+            </div>
+        </Grid>
+        <Grid item sm={11}>
+            <Grid container>
+                <Grid item sm={12}>
+                    {comment.body}
+                    <IconButton onClick={() => editComment(comment.id)}>
+                        <EditOutlined/>
                     </IconButton>
-                    <span>{comment.voteScore}</span>
-                    <IconButton
-                        onClick={() => props.voteComment(
-                            comment.id, 'downVote')} className={classes.voteIcoBtn}>
-                        <KeyboardArrowDownRounded className={classes.voteIcon}/>
+                    <IconButton onClick={() => deleteComment(comment.id)}>
+                        <DeleteForeverOutlined/>
                     </IconButton>
-                </div>
-            </Grid>
-            <Grid item sm={11}>
-                <Grid container>
-                    <Grid item sm={12}>
-                        {comment.body}
-                        <IconButton onClick={() => props.editComment(comment.id)}>
-                            <EditOutlined/>
-                        </IconButton>
-                        <IconButton onClick={() => props.deleteComment(comment.id)}>
-                            <DeleteForeverOutlined/>
-                        </IconButton>
-                    </Grid>
-                    <Grid item sm={12}>
-                        <label>Author: </label>
-                        <span>{comment.author}</span>
-                    </Grid>
-                    <Grid item sm={12}>
-                        <label>Date: </label>
-                        <span>{comment.timestamp ? new Date(comment.timestamp).toDateString() : ''}</span>
-                    </Grid>
+                </Grid>
+                <Grid item sm={12}>
+                    <label>Author: </label>
+                    <span>{comment.author}</span>
+                </Grid>
+                <Grid item sm={12}>
+                    <label>Date: </label>
+                    <span>{comment.timestamp ? new Date(comment.timestamp).toDateString() : ''}</span>
                 </Grid>
             </Grid>
         </Grid>
-    );
-};
+    </Grid>
+);
 
 Comment.propTypes = {
     classes: PropTypes.object.isRequired,

@@ -1,15 +1,11 @@
 import { IconButton, Table, TableBody, TableCell, TableRow, withStyles } from '@material-ui/core';
 import {
-    DeleteForeverOutlined,
-    EditOutlined,
-    RemoveRedEyeOutlined,
-    ThumbDownOutlined,
-    ThumbUpOutlined,
+    DeleteForeverOutlined, EditOutlined, RemoveRedEyeOutlined, ThumbDownOutlined, ThumbUpOutlined
 } from '@material-ui/icons';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import homeStyle from '../../styles/homeStyles';
-import { getSorting, stableSort } from '../../utils/helpers';
+import { getSorting, stableSort } from '../../utils';
 import PostTableHeader from './PostTableHeader';
 import { POST_TABLE_DATA } from '../../common';
 
