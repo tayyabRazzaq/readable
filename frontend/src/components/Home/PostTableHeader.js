@@ -15,9 +15,7 @@ const PostTableHeader = ({ order, orderBy, rows, onRequestSort }) => {
             align={index !== 0 ? 'center' : ''}
             sortDirection={orderBy === row.id ? order : false}
         >
-            <Tooltip
-                title="Sort"
-                enterDelay={300}>
+            <Tooltip title="Sort" enterDelay={300}>
                 <TableSortLabel
                     active={orderBy === row.id}
                     disabled={!row.order}
