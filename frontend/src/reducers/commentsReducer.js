@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 import {
     GET_POST_COMMENTS_SUCCESSFULLY,
     GET_POST_COMMENTS_FAILED,
@@ -12,7 +12,7 @@ import {
     UPDATE_COMMENT_FAILED,
     DELETE_COMMENT_SUCCESSFULLY,
     DELETE_COMMENT_FAILED
-} from '../common/actionTypes';
+} from '../common';
 
 const initialState = new Map({
     comments: [],

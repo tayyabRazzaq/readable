@@ -1,11 +1,18 @@
 import {
-    GET_CATEGORY_POSTS_SUCCESSFULLY, GET_CATEGORY_POSTS_FAILED,
-    GET_ALL_POSTS_SUCCESSFULLY, GET_ALL_POSTS_FAILED,
-    SAVE_POST_SUCCESSFULLY, SAVE_POST_FAILED,
-    GET_POST_SUCCESSFULLY, GET_POST_FAILED,
-    VOTE_POST_SUCCESSFULLY, VOTE_POST_FAILED,
-    UPDATE_POST_SUCCESSFULLY, UPDATE_POST_FAILED,
-    DELETE_POST_SUCCESSFULLY, DELETE_POST_FAILED,
+    GET_CATEGORY_POSTS_SUCCESSFULLY,
+    GET_CATEGORY_POSTS_FAILED,
+    GET_ALL_POSTS_SUCCESSFULLY,
+    GET_ALL_POSTS_FAILED,
+    SAVE_POST_SUCCESSFULLY,
+    SAVE_POST_FAILED,
+    GET_POST_SUCCESSFULLY,
+    GET_POST_FAILED,
+    VOTE_POST_SUCCESSFULLY,
+    VOTE_POST_FAILED,
+    UPDATE_POST_SUCCESSFULLY,
+    UPDATE_POST_FAILED,
+    DELETE_POST_SUCCESSFULLY,
+    DELETE_POST_FAILED,
 } from '../common/actionTypes';
 import {
     getCategoryPostsHelper,
@@ -15,9 +22,8 @@ import {
     votePostHelper,
     updatePostHelper,
     deletePostHelper,
-} from '../utils/_DATA';
-import performServerCall from '../utils/actionHandler';
-
+    performServerCall
+} from '../utils';
 
 export const getAllPosts = () => dispatch => dispatch(
     performServerCall(getAllPostsHelper, {}, GET_ALL_POSTS_SUCCESSFULLY, GET_ALL_POSTS_FAILED),
